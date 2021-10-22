@@ -58,7 +58,7 @@ card_sentiment = dbc.Card([
 
 card_percentile_rank = dbc.Card([
     dbc.CardBody([
-        html.H5('Percentile Rank', className='text-center'),
+        html.H5('Decarbonization Rating', className='text-center'),
         dcc.Graph(id='percentile_barplot', figure={})
     ])
 ])
@@ -93,6 +93,7 @@ app.layout = dbc.Container([
     ]),
     dbc.Row([ # Second Row: 2 Dropdowns for the dashboard
         dbc.Col([
+            html.H6('Select Type of Financial Institution'), 
             dcc.Dropdown(id='type_of_fi_dropdown',
                         options=[
                             {'label': 'Asset Manager', 'value': 'am'}, 
@@ -101,21 +102,23 @@ app.layout = dbc.Container([
                             {'label': 'Pension Fund', 'value': 'pf'}
                         ],
                         multi=False,
-                        placeholder='Select Type of Financial Institution',
+                        value='am',
                         searchable=False)
         ], width={'size':4, 'offset':2, 'order':1}),
         dbc.Col([
+            html.H6('Select a Company'),
             dcc.Dropdown(id='company_dropdown',
-                        #options=[{'label': x[0], 'value': x[1]} for x in companylabels],
                         multi=False,
-                        placeholder='Select a Company')
+                        value='Aegon')
         ], width={'size':4, 'offset':0, 'order':2})
     ]),
     html.Br(),
     dbc.Row([
-        dbc.CardDeck([card_sentiment, card_percentile_rank, card_initiative_count])
+        dbc.Col([card_sentiment], width={'size':4, 'offset':0, 'order':1}),
+        dbc.Col([card_percentile_rank], width={'size':4, 'offset':0, 'order':2}),
+        dbc.Col([card_initiative_count], width={'size':4, 'offset':0, 'order':3})
     ])
-])
+], fluid=True)
 
 # Callback ----------------------------------------------------------------------------
 # To filter for comapanies according to FI chosen in dropdown 1
@@ -128,6 +131,64 @@ def update_dropdown(type_of_fi):
     options = [{'label': x[0], 'value': x[1]} for x in sub_df.values.tolist()]
     return options
 
+# To update sentiment gauge chart
+@app.callback(
+    Output(component_id='sentiment_gauge', component_property='figure'),
+    Input(component_id='company_dropdown', component_property='value')
+)
+def update_graph(company):
+    sentiment = sentiment_file.set_index('Company').Sentiment.loc[company]
+
+    fig = go.Figure(go.Indicator(
+        domain = {'x': [0, 1], 'y': [0, 1]},
+        value = sentiment, # company's sentiment
+        mode = "gauge+number+delta",
+        delta = {'reference': 3.7}, # average
+        gauge = {'axis': {'range': [None, 5]},
+                'bar': {'color': "black"},
+                'steps' : [
+                    {'range': [0, 1.25], 'color': "#F25757"}, 
+                    {'range': [1.25, 2.5], 'color': "#FFC15E"}, 
+                    {'range': [2.5, 3.75], 'color': "#F5FF90"}, 
+                    {'range': [3.75, 5], 'color': "#58CC00"}], 
+                'threshold' : {'line': {'color': "red", 'width': 3.7}, 'thickness': 0.75, 'value': 3.7}}))
+    fig.update_layout(height = 200, margin = {'t':10, 'b':0})
+    return fig
+
+# To update barplot for percentile rank
+@app.callback(
+    Output(component_id='percentile_barplot', component_property='figure'),
+    Input(component_id='company_dropdown', component_property='value')
+)
+def update_graph(company):
+    rating = round(ratings_file.set_index('name').percentile.loc[company])
+    average = 50
+    fig = go.Figure(go.Bar(
+            x=[rating, average],
+            y=['Company', 'Average'],
+            orientation='h',
+            marker_color=['#4EADAF', '#88DEB0']))
+    fig.update_traces(width=0.6)
+    fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
+    return fig 
+
+# To update barplot for initiative count
+@app.callback(
+    Output(component_id='initiative_barplot', component_property='figure'),
+    Input(component_id='company_dropdown', component_property='value')
+)
+def update_graph(company):
+    company_initiative = all_initiative_array.set_index('Company').Initiatives.loc[company]
+    count = len(ast.literal_eval(company_initiative))
+    average = 6
+    fig = go.Figure(go.Bar(
+            x=[count, average],
+            y=['Company', 'Average'],
+            orientation='h',
+            marker_color=['#4EADAF', '#88DEB0']))
+    fig.update_traces(width=0.6)
+    fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
+    return fig 
 # -------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run_server(debug=True)
