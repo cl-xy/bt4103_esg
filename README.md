@@ -4,4 +4,6 @@
 ## Installation of packages
 
 pip install dash_daq
+
+<br>
 pip install wordcloud
