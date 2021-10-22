@@ -113,10 +113,15 @@ app.layout = dbc.Container([
         ], width={'size':4, 'offset':0, 'order':2})
     ]),
     html.Br(),
-    dbc.Row([
+    dbc.Row([ # Third Row
         dbc.Col([card_sentiment], width={'size':4, 'offset':0, 'order':1}),
         dbc.Col([card_percentile_rank], width={'size':4, 'offset':0, 'order':2}),
         dbc.Col([card_initiative_count], width={'size':4, 'offset':0, 'order':3})
+    ]),
+    html.Br(),
+    dbc.Row([ # Fourth Row
+        dbc.Col([card_initiative_table], width={'size':7, 'offset':0, 'order':1}),
+        dbc.Col([card_word_count], width={'size':5, 'offset':0, 'order':2})
     ])
 ], fluid=True)
 
