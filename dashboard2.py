@@ -31,7 +31,7 @@ initiatives_file = initiatives_file.replace({np.nan: '-'})
 # dictionary: key-initiative spelled out fully, value-[acronym, description]
 initiatives_dict = initiatives_file.set_index('Initiative').T.to_dict('list')
 # read csv containing all initiatives
-all_initiative_array = pd.read_csv('data/all_initiatives.csv')
+all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company', 'Type', 'Initiatives'])
 
 # For WordCloud
 dfm = pd.DataFrame({'word': ['climate', 'emission', 'esg', 'investment', 'energy', 'initiative', 'management', 'sustainability'], 
@@ -43,10 +43,10 @@ def plot_wordcloud(data):
     return wc.to_image()
 
 # For decarbonization rating
-ratings_file = pd.read_csv('data/all_percentile.csv', usecols=['name', 'percentile'])
+ratings_file = pd.read_csv('data/all_percentile.csv', usecols=['name', 'percentile', 'type'])
 
 # For sentiment 
-sentiment_file = pd.read_csv('data/sentiment_dummy.csv', usecols=['Company', 'Sentiment'])
+sentiment_file = pd.read_csv('data/sentiment_dummy.csv', usecols=['Company', 'Sentiment', 'type'])
 
 # Cards --------------------------------------------------------------------------------
 card_sentiment = dbc.Card([
@@ -194,6 +194,42 @@ def update_graph(company):
     fig.update_traces(width=0.6)
     fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
     return fig 
+
+# Global Initiatives Table
+@app.callback(
+    Output(component_id='initiative_table', component_property='figure'),
+    Input(component_id='company_dropdown', component_property='value')
+)
+def update_graph(option_slctd):
+    company_initiative = all_initiative_array.set_index('Company').Initiatives.loc[option_slctd]
+    company_initiative = ast.literal_eval(company_initiative)
+    company_initiative = sorted(company_initiative)
+    
+    data = []
+    for full_name in company_initiative:
+        acronym = initiatives_dict[full_name][0]
+        details = initiatives_dict[full_name][1]  
+        data.append([full_name, acronym, details])
+    
+    df = pd.DataFrame(data, columns = ['Initiatives', 'Acronym', 'Details'])
+
+    fig = go.Figure(data=[go.Table(
+        columnwidth = [100, 50, 400],
+        header = dict(
+            values=list(df.columns),
+            font_color='rgb(100,100,100)',
+            fill_color='aquamarine',
+            align='left'),
+        cells = dict(
+            values=[df.Initiatives, df.Acronym, df.Details],
+            fill_color='white', 
+            font_color='rgb(100,100,100)',
+            font_size=10,
+            align='left',
+            height=20)),
+    ], layout=go.Layout(margin={'l':0, 'r':0, 't':10, 'b':10}))
+
+    return fig
 # -------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run_server(debug=True)
