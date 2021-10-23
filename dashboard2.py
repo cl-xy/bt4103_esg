@@ -33,14 +33,6 @@ initiatives_dict = initiatives_file.set_index('Initiative').T.to_dict('list')
 # read csv containing all initiatives
 all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company', 'Type', 'Initiatives', 'Count'])
 
-# For WordCloud
-dfm = pd.DataFrame({'word': ['climate', 'emission', 'esg', 'investment', 'energy', 'initiative', 'management', 'sustainability'], 
-                    'freq': [20, 18, 16, 14, 11, 8, 7, 4]})
-def plot_wordcloud(data):
-    d = {a: x for a, x in data.values}
-    wc = WordCloud(background_color='white', width=480, height=400)
-    wc.fit_words(d)
-    return wc.to_image()
 
 # For decarbonization rating
 ratings_file = pd.read_csv('data/all_percentile.csv', usecols=['name', 'percentile', 'type'])
@@ -88,7 +80,7 @@ card_word_count = dbc.Card([
 app.layout = dbc.Container([
     dbc.Row([ # First Row: Dashboard Header
         dbc.Col(html.H1('Decarbonization Dashboard',
-                        className='text-center mb-4'),
+                        className='mb-4'),
                 width=12)
     ]),
     dbc.Row([ # Second Row: 2 Dropdowns for the dashboard
@@ -104,7 +96,7 @@ app.layout = dbc.Container([
                         multi=False,
                         value='am',
                         searchable=False)
-        ], width={'size':4, 'offset':2, 'order':1}),
+        ], width={'size':4, 'offset':0, 'order':1}),
         dbc.Col([
             html.H6('Select a Company'),
             dcc.Dropdown(id='company_dropdown',
@@ -210,7 +202,7 @@ def update_graph(type_of_fi, company):
     fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
     return fig 
 
-# Global Initiatives Table
+# To update Global Initiatives Table
 @app.callback(
     Output(component_id='initiative_table', component_property='figure'),
     Input(component_id='company_dropdown', component_property='value')
@@ -245,6 +237,20 @@ def update_graph(option_slctd):
     ], layout=go.Layout(margin={'l':0, 'r':0, 't':10, 'b':10}))
 
     return fig
+
+# To update word count bar plot
+@app.callback(
+    Output(component_id='word_count', component_property='figure'),
+    Input(component_id='company_dropdown', component_property='value')
+)
+def update_graph(company):
+    fig = go.Figure(go.Bar(
+            x=sorted([20, 18, 16, 14, 11, 8, 7, 4, 3, 1]),
+            y=['green', 'carbon', 'esg', 'investment', 'energy', 'initiative', 'management', 'sustainability', 'emission', 'climate'],
+            orientation='h',
+            marker_color=['#89FFEF', '#66FFEA', '#42FFE5', '#1EFFE0', '#00F9D8', '#00D6B9', '#00B29A', '#008E7B', '#006B5C', '#00473D']))
+    fig.update_layout(height = 450 , margin = {'t':10, 'b':0})
+    return fig 
 # -------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run_server(debug=True)
