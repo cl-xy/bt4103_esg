@@ -31,7 +31,7 @@ initiatives_file = initiatives_file.replace({np.nan: '-'})
 # dictionary: key-initiative spelled out fully, value-[acronym, description]
 initiatives_dict = initiatives_file.set_index('Initiative').T.to_dict('list')
 # read csv containing all initiatives
-all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company', 'Type', 'Initiatives'])
+all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company', 'Type', 'Initiatives', 'Count'])
 
 # For WordCloud
 dfm = pd.DataFrame({'word': ['climate', 'emission', 'esg', 'investment', 'energy', 'initiative', 'management', 'sustainability'], 
@@ -139,16 +139,21 @@ def update_dropdown(type_of_fi):
 # To update sentiment gauge chart
 @app.callback(
     Output(component_id='sentiment_gauge', component_property='figure'),
+    Input(component_id='type_of_fi_dropdown', component_property='value'),
     Input(component_id='company_dropdown', component_property='value')
 )
-def update_graph(company):
-    sentiment = sentiment_file.set_index('Company').Sentiment.loc[company]
+def update_graph(type_of_fi, company):
+    # Extract out dataframe for relevant FI, used for aggregation
+    sub_df = sentiment_file.loc[sentiment_file['type'] == type_of_fi]
+    count_array = sub_df['Sentiment'].values.tolist()
 
+    sentiment = sentiment_file.set_index('Company').Sentiment.loc[company]
+    average = round(sum(count_array) / len(count_array), 1)
     fig = go.Figure(go.Indicator(
         domain = {'x': [0, 1], 'y': [0, 1]},
         value = sentiment, # company's sentiment
         mode = "gauge+number+delta",
-        delta = {'reference': 3.7}, # average
+        delta = {'reference': average}, # average
         gauge = {'axis': {'range': [None, 5]},
                 'bar': {'color': "black"},
                 'steps' : [
@@ -156,18 +161,23 @@ def update_graph(company):
                     {'range': [1.25, 2.5], 'color': "#FFC15E"}, 
                     {'range': [2.5, 3.75], 'color': "#F5FF90"}, 
                     {'range': [3.75, 5], 'color': "#58CC00"}], 
-                'threshold' : {'line': {'color': "red", 'width': 3.7}, 'thickness': 0.75, 'value': 3.7}}))
+                'threshold' : {'line': {'color': "red", 'width': 3.7}, 'thickness': 0.75, 'value': average}}))
     fig.update_layout(height = 200, margin = {'t':10, 'b':0})
     return fig
 
 # To update barplot for percentile rank
 @app.callback(
     Output(component_id='percentile_barplot', component_property='figure'),
+    Input(component_id='type_of_fi_dropdown', component_property='value'),
     Input(component_id='company_dropdown', component_property='value')
 )
-def update_graph(company):
+def update_graph(type_of_fi, company):
+    # Extract out dataframe for relevant FI, used for aggregation
+    sub_df = ratings_file.loc[ratings_file['type'] == type_of_fi]
+    count_array = sub_df['percentile'].values.tolist()
+
     rating = round(ratings_file.set_index('name').percentile.loc[company])
-    average = 50
+    average = round(sum(count_array) / len(count_array))
     fig = go.Figure(go.Bar(
             x=[rating, average],
             y=['Company', 'Average'],
@@ -180,12 +190,17 @@ def update_graph(company):
 # To update barplot for initiative count
 @app.callback(
     Output(component_id='initiative_barplot', component_property='figure'),
+    Input(component_id='type_of_fi_dropdown', component_property='value'),
     Input(component_id='company_dropdown', component_property='value')
 )
-def update_graph(company):
+def update_graph(type_of_fi, company):
+    # Extract out dataframe for relevant FI, used for aggregation
+    sub_df = all_initiative_array.loc[all_initiative_array['Type'] == type_of_fi]
+    count_array = sub_df['Count'].values.tolist()
+
     company_initiative = all_initiative_array.set_index('Company').Initiatives.loc[company]
     count = len(ast.literal_eval(company_initiative))
-    average = 6
+    average = round(sum(count_array) / len(count_array))
     fig = go.Figure(go.Bar(
             x=[count, average],
             y=['Company', 'Average'],
