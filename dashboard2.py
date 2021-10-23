@@ -33,7 +33,6 @@ initiatives_dict = initiatives_file.set_index('Initiative').T.to_dict('list')
 # read csv containing all initiatives
 all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company', 'Type', 'Initiatives', 'Count'])
 
-
 # For decarbonization rating
 ratings_file = pd.read_csv('data/all_percentile.csv', usecols=['name', 'percent', 'type'])
 
@@ -102,7 +101,11 @@ app.layout = dbc.Container([
             dcc.Dropdown(id='company_dropdown',
                         multi=False,
                         value='Aegon')
-        ], width={'size':4, 'offset':0, 'order':2})
+        ], width={'size':4, 'offset':0, 'order':2}),
+        dbc.Col([
+            html.H6('Abbreviations'),
+            html.P('am: Asset Manager; ab: Asian Banks; ins: Insurance; pf: Pension Funds')
+        ], width={'size':4, 'offset':0, 'order':3})
     ]),
     html.Br(),
     dbc.Row([ # Third Row
@@ -171,10 +174,11 @@ def update_graph(type_of_fi, company):
     rating = round(ratings_file.set_index('name').percent.loc[company], 2)
     average = round(sum(count_array) / len(count_array), 2)
     fig = go.Figure(go.Bar(
-            x=[rating, average],
-            y=['Company', 'Average'],
+            x=[average, rating],
+            y=['Average' + ' (' + type_of_fi + ')', company],
             orientation='h',
-            marker_color=['#4EADAF', '#88DEB0']))
+            marker_color=['#88DEB0', '#4EADAF'],
+            textposition='auto'))
     fig.update_traces(width=0.6)
     fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
     return fig 
@@ -194,10 +198,10 @@ def update_graph(type_of_fi, company):
     count = len(ast.literal_eval(company_initiative))
     average = round(sum(count_array) / len(count_array))
     fig = go.Figure(go.Bar(
-            x=[count, average],
-            y=['Company', 'Average'],
+            x=[average, count],
+            y=['Average' + ' (' + type_of_fi + ')', company],
             orientation='h',
-            marker_color=['#4EADAF', '#88DEB0']))
+            marker_color=['#88DEB0', '#4EADAF']))
     fig.update_traces(width=0.6)
     fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
     return fig 
