@@ -35,7 +35,7 @@ all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company
 
 
 # For decarbonization rating
-ratings_file = pd.read_csv('data/all_percentile.csv', usecols=['name', 'percentile', 'type'])
+ratings_file = pd.read_csv('data/all_percentile.csv', usecols=['name', 'percent', 'type'])
 
 # For sentiment 
 sentiment_file = pd.read_csv('data/sentiment_dummy.csv', usecols=['Company', 'Sentiment', 'type'])
@@ -50,8 +50,8 @@ card_sentiment = dbc.Card([
 
 card_percentile_rank = dbc.Card([
     dbc.CardBody([
-        html.H5('Decarbonization Rating', className='text-center'),
-        dcc.Graph(id='percentile_barplot', figure={})
+        html.H5('Percentage of Decarbonization Disclosure', className='text-center'),
+        dcc.Graph(id='percentage_barplot', figure={})
     ])
 ])
 
@@ -159,17 +159,17 @@ def update_graph(type_of_fi, company):
 
 # To update barplot for percentile rank
 @app.callback(
-    Output(component_id='percentile_barplot', component_property='figure'),
+    Output(component_id='percentage_barplot', component_property='figure'),
     Input(component_id='type_of_fi_dropdown', component_property='value'),
     Input(component_id='company_dropdown', component_property='value')
 )
 def update_graph(type_of_fi, company):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = ratings_file.loc[ratings_file['type'] == type_of_fi]
-    count_array = sub_df['percentile'].values.tolist()
+    count_array = sub_df['percent'].values.tolist()
 
-    rating = round(ratings_file.set_index('name').percentile.loc[company])
-    average = round(sum(count_array) / len(count_array))
+    rating = round(ratings_file.set_index('name').percent.loc[company], 2)
+    average = round(sum(count_array) / len(count_array), 2)
     fig = go.Figure(go.Bar(
             x=[rating, average],
             y=['Company', 'Average'],
