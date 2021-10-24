@@ -177,7 +177,8 @@ def update_graph(type_of_fi, company):
             y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company],
             orientation='h',
             marker_color=['#88DEB0', '#4EADAF'],
-            textposition='auto'))
+            text=[average, rating],
+            textposition='inside'))
     fig.update_traces(width=0.6)
     fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
     return fig 
@@ -200,7 +201,9 @@ def update_graph(type_of_fi, company):
             x=[average, count],
             y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company],
             orientation='h',
-            marker_color=['#88DEB0', '#4EADAF']))
+            marker_color=['#88DEB0', '#4EADAF'],
+            text=[average, count],
+            textposition='inside'))
     fig.update_traces(width=0.6)
     fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
     return fig 
