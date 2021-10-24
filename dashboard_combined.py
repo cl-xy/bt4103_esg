@@ -42,6 +42,9 @@ ratings_file = pd.read_csv('data/all_percentile.csv', usecols=['name', 'percent'
 # For sentiment 
 sentiment_file = pd.read_csv('data/sentiment_dummy.csv', usecols=['Company', 'Sentiment', 'type'])
 
+# For bigram
+bigram_file = pd.read_csv('data/bigram_df.csv', usecols=['Company', 'BigramArray'])
+
 # Cards --------------------------------------------------------------------------------
 card_sentiment = dbc.Card([
     dbc.CardBody([
@@ -164,6 +167,20 @@ tab2_content = dbc.Card(
         dbc.Row([ # Third Row
             dbc.Col([card_percentage_comparison], width={'size':7, 'offset':0, 'order':1}),
             dbc.Col([card_sentiment_comparison], width={'size':5, 'offset':0, 'order':2})
+        ]),
+        html.Hr(),
+        dbc.Row([
+            dbc.Col([
+                html.H5('Top 10 Occuring Bigrams', className='text-center')
+            ], width=12)
+        ]),
+        dbc.Row([
+            dbc.Col([
+                dcc.Graph(id='bigram1', figure={})
+            ], width=6),
+            dbc.Col([
+                dcc.Graph(id='bigram2', figure={})
+            ], width=6)
         ])
     ]),
     className="mt-3",
@@ -405,6 +422,44 @@ def update_graph(type_of_fi, company1, company2):
     fig.update_traces(width=0.6)
     fig.update_layout(height = 350 , margin = {'t':20, 'b':0})
     return fig 
+
+# To update bigram chart 1
+@app.callback(
+    Output(component_id='bigram1', component_property='figure'),
+    Input(component_id='company_dropdown_tab2', component_property='value')
+)
+def update_graph(company1):
+    bigram_dict = bigram_file.set_index('Company').BigramArray.loc[company1]
+    bigram_dict = ast.literal_eval(bigram_dict)
+    words = [w[0] for w in bigram_dict]
+    counts = [w[1] for w in bigram_dict]
+    
+    fig = go.Figure(go.Bar(
+            x=counts,
+            y=words,
+            orientation='h',
+            marker_color=px.colors.sequential.Tealgrn))
+    fig.update_layout(height = 450 , margin = {'t':60, 'b':0}, yaxis=dict(autorange="reversed"), title_text=company1)
+    return fig
+
+# To update bigram chart 2
+@app.callback(
+    Output(component_id='bigram2', component_property='figure'),
+    Input(component_id='company_dropdown2_tab2', component_property='value')
+)
+def update_graph(company2):
+    bigram_dict = bigram_file.set_index('Company').BigramArray.loc[company2]
+    bigram_dict = ast.literal_eval(bigram_dict)
+    words = [w[0] for w in bigram_dict]
+    counts = [w[1] for w in bigram_dict]
+    
+    fig = go.Figure(go.Bar(
+            x=counts,
+            y=words,
+            orientation='h',
+            marker_color=px.colors.sequential.Tealgrn))
+    fig.update_layout(height = 450 , margin = {'t':60, 'b':0}, yaxis=dict(autorange="reversed"), title_text=company2)
+    return fig
 
 # -------------------------------------------------------------------------------------
 if __name__ == '__main__':
