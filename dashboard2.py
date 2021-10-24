@@ -24,6 +24,9 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MATERIA],
 # Load company names to display in dropdown menu
 companylabels_file = pd.read_csv('data/companylabels.csv', usecols=['FullName', 'ShortForm', 'Type'])
 
+# To map type of FI to its abbrievation
+fi_dict = {'ab': 'AB', 'am': 'AM', 'ins': 'INS', 'pf': 'PF'}
+
 # For global initiatives table 
 initiatives_file = pd.read_csv('data/esg_initiatives.csv')
 # replace NaN for initiatives without acronym
@@ -87,10 +90,10 @@ app.layout = dbc.Container([
             html.H6('Select Type of Financial Institution'), 
             dcc.Dropdown(id='type_of_fi_dropdown',
                         options=[
-                            {'label': 'Asset Manager', 'value': 'am'}, 
-                            {'label': 'Asian Bank', 'value': 'ab'}, 
-                            {'label': 'Insurance Company', 'value': 'ins'}, 
-                            {'label': 'Pension Fund', 'value': 'pf'}
+                            {'label': 'Asset Manager (AM)', 'value': 'am'}, 
+                            {'label': 'Asian Bank (AB)', 'value': 'ab'}, 
+                            {'label': 'Insurance Company (INS)', 'value': 'ins'}, 
+                            {'label': 'Pension Fund (PF)', 'value': 'pf'}
                         ],
                         multi=False,
                         value='am',
@@ -101,11 +104,7 @@ app.layout = dbc.Container([
             dcc.Dropdown(id='company_dropdown',
                         multi=False,
                         value='Aegon')
-        ], width={'size':4, 'offset':0, 'order':2}),
-        dbc.Col([
-            html.H6('Abbreviations'),
-            html.P('am: Asset Manager; ab: Asian Banks; ins: Insurance; pf: Pension Funds')
-        ], width={'size':4, 'offset':0, 'order':3})
+        ], width={'size':4, 'offset':0, 'order':2})
     ]),
     html.Br(),
     dbc.Row([ # Third Row
@@ -175,7 +174,7 @@ def update_graph(type_of_fi, company):
     average = round(sum(count_array) / len(count_array), 2)
     fig = go.Figure(go.Bar(
             x=[average, rating],
-            y=['Average' + ' (' + type_of_fi + ')', company],
+            y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company],
             orientation='h',
             marker_color=['#88DEB0', '#4EADAF'],
             textposition='auto'))
@@ -199,7 +198,7 @@ def update_graph(type_of_fi, company):
     average = round(sum(count_array) / len(count_array))
     fig = go.Figure(go.Bar(
             x=[average, count],
-            y=['Average' + ' (' + type_of_fi + ')', company],
+            y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company],
             orientation='h',
             marker_color=['#88DEB0', '#4EADAF']))
     fig.update_traces(width=0.6)
