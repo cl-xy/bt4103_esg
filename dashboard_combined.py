@@ -45,6 +45,9 @@ sentiment_file = pd.read_csv('data/sentiment_dummy.csv', usecols=['Company', 'Se
 # For bigram
 bigram_file = pd.read_csv('data/bigram_df.csv', usecols=['Company', 'BigramArray'])
 
+# For wordcount
+word_count_file = pd.read_csv('data/all_word_count_top10.csv', usecols=['name', 'bigram', 'count'])
+
 # Cards --------------------------------------------------------------------------------
 card_sentiment = dbc.Card([
     dbc.CardBody([
@@ -336,12 +339,17 @@ def update_graph(option_slctd):
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
 def update_graph(company):
+    sub_df = word_count_file.loc[word_count_file['name'] == company]
+    sorted_df = sub_df.sort_values(by=['count'], ascending=False)
+    words = sorted_df['bigram'].tolist()
+    counts = sorted_df['count'].tolist()
+
     fig = go.Figure(go.Bar(
-            x=sorted([20, 18, 16, 14, 11, 8, 7, 4, 3, 1]),
-            y=['green', 'carbon', 'esg', 'investment', 'energy', 'initiative', 'management', 'sustainability', 'emission', 'climate'],
+            x=counts,
+            y=words,
             orientation='h',
-            marker_color=['#89FFEF', '#66FFEA', '#42FFE5', '#1EFFE0', '#00F9D8', '#00D6B9', '#00B29A', '#008E7B', '#006B5C', '#00473D']))
-    fig.update_layout(height = 450 , margin = {'t':10, 'b':0})
+            marker_color=px.colors.sequential.Tealgrn))
+    fig.update_layout(height = 450 , margin = {'t':10, 'b':0}, yaxis=dict(autorange="reversed"))
     return fig 
 
 # ---------- For Tab 2 ----------
