@@ -422,11 +422,11 @@ def update_graph(type_of_fi, company1, company2):
     sentiment2 = sentiment_file.set_index('Company').Sentiment.loc[company2]
     
     fig = go.Figure(go.Bar(
-            x=[average, sentiment1, sentiment2],
-            y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company1, company2],
+            x=[average, sentiment2, sentiment1],
+            y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company2, company1],
             orientation='h',
             marker_color=['#4EADAF', '#69C6AF','#88DEB0'],
-            text=[average, sentiment1, sentiment2],
+            text=[average, sentiment2, sentiment1],
             textposition='inside'))
     fig.update_traces(width=0.6)
     fig.update_layout(height = 350 , margin = {'t':20, 'b':0})
