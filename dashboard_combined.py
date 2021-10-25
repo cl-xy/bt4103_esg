@@ -15,7 +15,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 
 # Bootstrap --------------------------------------------------------------------------
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MATERIA],
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MATERIA], 
                 meta_tags=[{'name': 'viewport',
                             'content': 'width=device-width, initial-scale=1.0'}]
                 )
@@ -36,8 +36,8 @@ initiatives_dict = initiatives_file.set_index('Initiative').T.to_dict('list')
 # read csv containing all initiatives
 all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company', 'Type', 'Initiatives', 'Count'])
 
-# For decarbonization rating
-ratings_file = pd.read_csv('data/all_percentile.csv', usecols=['name', 'percent', 'type'])
+# For decarbonization percentage
+ratings_file = pd.read_csv('data/all_percentile_t8.csv', usecols=['name', 'percent', 'type'])
 
 # For sentiment 
 sentiment_file = pd.read_csv('data/sentiment_dummy.csv', usecols=['Company', 'Sentiment', 'type'])
@@ -174,7 +174,7 @@ tab2_content = dbc.Card(
         html.Hr(),
         dbc.Row([
             dbc.Col([
-                html.H5('Top 10 Occuring Bigrams', className='text-center')
+                html.H5('Top 10 Occurring Bigrams', className='text-center')
             ], width=12)
         ]),
         dbc.Row([
@@ -265,7 +265,8 @@ def update_graph(type_of_fi, company):
             x=[average, rating],
             y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company],
             orientation='h',
-            marker_color=['#88DEB0', '#4EADAF'],
+            marker_color=['#4EADAF', '#88DEB0'],
+            #marker_color=['#88DEB0', '#4EADAF'],
             text=[average, rating],
             textposition='inside'))
     fig.update_traces(width=0.6)
@@ -290,7 +291,7 @@ def update_graph(type_of_fi, company):
             x=[average, count],
             y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company],
             orientation='h',
-            marker_color=['#88DEB0', '#4EADAF'],
+            marker_color=['#4EADAF', '#88DEB0'],
             text=[average, count],
             textposition='inside'))
     fig.update_traces(width=0.6)
@@ -400,7 +401,7 @@ def update_graph(type_of_fi, company1, company2):
 
     fig.update_traces(hoverinfo="label+percent+name", marker_colors=['#88DEB0', '#4EADAF'])
     fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="auto"), 
-        height = 350, margin = {'t':10, 'b':0})
+        height = 350, margin = {'t':50, 'b':0})
     fig.update_annotations(font_size=13, font_color='black')
     return fig
 
@@ -424,7 +425,7 @@ def update_graph(type_of_fi, company1, company2):
             x=[average, sentiment1, sentiment2],
             y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company1, company2],
             orientation='h',
-            marker_color=['#88DEB0', '#69C6AF', '#4EADAF'],
+            marker_color=['#4EADAF', '#69C6AF','#88DEB0'],
             text=[average, sentiment1, sentiment2],
             textposition='inside'))
     fig.update_traces(width=0.6)
@@ -447,7 +448,8 @@ def update_graph(company1):
             y=words,
             orientation='h',
             marker_color=px.colors.sequential.Tealgrn))
-    fig.update_layout(height = 450 , margin = {'t':60, 'b':0}, yaxis=dict(autorange="reversed"), title_text=company1)
+    fig.update_layout(height = 450 , margin = {'t':60, 'b':0}, yaxis=dict(autorange="reversed"), 
+                    title_text=company1, title_font_size=13, title_x=0.5)
     return fig
 
 # To update bigram chart 2
@@ -466,7 +468,8 @@ def update_graph(company2):
             y=words,
             orientation='h',
             marker_color=px.colors.sequential.Tealgrn))
-    fig.update_layout(height = 450 , margin = {'t':60, 'b':0}, yaxis=dict(autorange="reversed"), title_text=company2)
+    fig.update_layout(height = 450 , margin = {'t':60, 'b':0}, yaxis=dict(autorange="reversed"), 
+                    title_text=company2, title_font_size=13, title_x=0.5)
     return fig
 
 # -------------------------------------------------------------------------------------
