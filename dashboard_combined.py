@@ -65,14 +65,14 @@ card_percentage = dbc.Card([
 
 card_initiative_count = dbc.Card([
     dbc.CardBody([
-        html.H5('Global Initiatives Count', className='text-center'),
+        html.H5('Global Standards & Initiatives Count', className='text-center'),
         dcc.Graph(id='initiative_barplot', figure={})
     ])
 ])
 
 card_initiative_table = dbc.Card([
     dbc.CardBody([
-        html.H5('Global Initiatives', className='text-center'),
+        html.H5('Global Standards & Initiatives', className='text-center'),
         dcc.Graph(id='initiative_table', figure={})
     ])
 ])
@@ -132,6 +132,12 @@ tab1_content = dbc.Card(
         dbc.Row([ 
             dbc.Col([card_initiative_table], width={'size':7, 'offset':0, 'order':1}),
             dbc.Col([card_word_count], width={'size':5, 'offset':0, 'order':2})
+        ]),
+        html.Br(),
+        dbc.Row([
+            dbc.Col([html.P('* Average is the mean result of all the companies that belongs \
+                            under the same type of financial institution.')
+            ], width=12)
         ])
     ]),
     className="mt-3",
@@ -184,6 +190,12 @@ tab2_content = dbc.Card(
             dbc.Col([
                 dcc.Graph(id='bigram2', figure={})
             ], width=6)
+        ]),
+        html.Hr(),
+        dbc.Row([
+            dbc.Col([html.P('* Average is the mean result of all the companies that belongs \
+                            under the same type of financial institution.')
+            ], width=12)
         ])
     ]),
     className="mt-3",
@@ -263,10 +275,9 @@ def update_graph(type_of_fi, company):
     average = round(sum(count_array) / len(count_array), 2)
     fig = go.Figure(go.Bar(
             x=[average, rating],
-            y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company],
+            y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company],
             orientation='h',
             marker_color=['#4EADAF', '#88DEB0'],
-            #marker_color=['#88DEB0', '#4EADAF'],
             text=[average, rating],
             textposition='inside'))
     fig.update_traces(width=0.6)
@@ -289,7 +300,7 @@ def update_graph(type_of_fi, company):
     average = round(sum(count_array) / len(count_array))
     fig = go.Figure(go.Bar(
             x=[average, count],
-            y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company],
+            y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company],
             orientation='h',
             marker_color=['#4EADAF', '#88DEB0'],
             text=[average, count],
@@ -331,7 +342,6 @@ def update_graph(option_slctd):
             align='left',
             height=20)),
     ], layout=go.Layout(margin={'l':0, 'r':0, 't':10, 'b':10}))
-
     return fig
 
 # To update word count bar plot
@@ -344,12 +354,15 @@ def update_graph(company):
     sorted_df = sub_df.sort_values(by=['count'], ascending=False)
     words = sorted_df['bigram'].tolist()
     counts = sorted_df['count'].tolist()
+    counts = [int(x) for x in counts]
 
     fig = go.Figure(go.Bar(
             x=counts,
             y=words,
             orientation='h',
-            marker_color=px.colors.sequential.Tealgrn))
+            marker_color=px.colors.sequential.Tealgrn,
+            text=counts,
+            textposition='inside'))
     fig.update_layout(height = 450 , margin = {'t':10, 'b':0}, yaxis=dict(autorange="reversed"))
     return fig 
 
@@ -394,7 +407,7 @@ def update_graph(type_of_fi, company1, company2):
     labels = ["Decarbonization Related", "Decarbonization Unrelated"]
     fig = make_subplots(rows=1, cols=3, 
         specs=[[{'type':'domain'}, {'type':'domain'}, {'type':'domain'}]], 
-        subplot_titles=['Average' + ' (' + fi_dict[type_of_fi] + ')', company1, company2])
+        subplot_titles=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company1, company2])
     fig.add_trace(go.Pie(labels=labels, values=[average, 100-average], name="Average", pull=[0.2, 0]), 1, 1)
     fig.add_trace(go.Pie(labels=labels, values=[percent1, 100-percent1], name=company1, pull=[0.2, 0]), 1, 2)
     fig.add_trace(go.Pie(labels=labels, values=[percent2, 100-percent2], name=company2, pull=[0.2, 0]), 1, 3)
@@ -423,7 +436,7 @@ def update_graph(type_of_fi, company1, company2):
     
     fig = go.Figure(go.Bar(
             x=[average, sentiment2, sentiment1],
-            y=['Average' + ' (' + fi_dict[type_of_fi] + ')', company2, company1],
+            y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company2, company1],
             orientation='h',
             marker_color=['#4EADAF', '#69C6AF','#88DEB0'],
             text=[average, sentiment2, sentiment1],
