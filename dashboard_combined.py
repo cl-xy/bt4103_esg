@@ -45,7 +45,7 @@ ratings_file = pd.read_csv('data/all_percentile_t8.csv', usecols=['name', 'perce
 sentiment_file = pd.read_csv('data/sentiment_dummy.csv', usecols=['Company', 'Sentiment', 'type'])
 
 # For bigram
-bigram_file = pd.read_csv('data/bigram_df.csv', usecols=['Company', 'BigramArray'])
+bigram_file = pd.read_csv('data/bigram_df.csv', usecols=['company', 'bigramArray'])
 
 # For wordcount
 word_count_file = pd.read_csv('data/all_word_count_top10.csv', usecols=['name', 'bigram', 'count'])
@@ -88,15 +88,29 @@ card_word_count = dbc.Card([
 
 card_percentage_comparison = dbc.Card([
     dbc.CardBody([
-        html.H5('Percentage of Decarbonization Disclosure', className='text-center'),
+        html.H5('Comparison - Decarbonization Disclosure (%)', className='card-header text-center'),
         dcc.Graph(id='percentage_comparison', figure={})
     ])
 ])
 
 card_sentiment_comparison = dbc.Card([
     dbc.CardBody([
-        html.H5('Overall Sentiment Level', className='text-center'),
+        html.H5('Comparison - Overall Sentiment Level', className='card-header text-center'),
         dcc.Graph(id='sentiment_comparison', figure={})
+    ])
+])
+
+card_bigram_comparison1 = dbc.Card([
+    dbc.CardBody([
+        html.H5('Top 10 Occurring Bigrams', className='card-header text-center'),
+        dcc.Graph(id='bigram1', figure={})
+    ])
+])
+
+card_bigram_comparison2 = dbc.Card([
+    dbc.CardBody([
+        html.H5('Top 10 Occurring Bigrams', className='card-header text-center'),
+        dcc.Graph(id='bigram2', figure={})
     ])
 ])
 
@@ -179,21 +193,12 @@ tab2_content = dbc.Card(
             dbc.Col([card_percentage_comparison], width={'size':7, 'offset':0, 'order':1}),
             dbc.Col([card_sentiment_comparison], width={'size':5, 'offset':0, 'order':2})
         ]),
-        html.Hr(),
+        html.Br(),
         dbc.Row([
-            dbc.Col([
-                html.H5('Top 10 Occurring Bigrams', className='text-center')
-            ], width=12)
+            dbc.Col([card_bigram_comparison1], width={'size':6, 'offset':0, 'order':1}),
+            dbc.Col([card_bigram_comparison2], width={'size':6, 'offset':0, 'order':2})
         ]),
-        dbc.Row([
-            dbc.Col([
-                dcc.Graph(id='bigram1', figure={})
-            ], width=6),
-            dbc.Col([
-                dcc.Graph(id='bigram2', figure={})
-            ], width=6)
-        ]),
-        html.Hr(),
+        html.Br(),
         dbc.Row([
             dbc.Col([html.P('* Average is the mean result of all the companies that belongs \
                             under the same type of financial institution.')
@@ -461,7 +466,7 @@ def update_graph(type_of_fi, company1, company2):
     Input(component_id='company_dropdown_tab2', component_property='value')
 )
 def update_graph(company1):
-    bigram_dict = bigram_file.set_index('Company').BigramArray.loc[company1]
+    bigram_dict = bigram_file.set_index('company').bigramArray.loc[company1]
     bigram_dict = ast.literal_eval(bigram_dict)
     words = [w[0] for w in bigram_dict]
     counts = [w[1] for w in bigram_dict]
@@ -472,7 +477,7 @@ def update_graph(company1):
             y=words,
             orientation='h',
             marker_color=px.colors.sequential.Tealgrn))
-    fig.update_layout(height = 450 , margin = {'t':60, 'b':0}, yaxis=dict(autorange="reversed"), 
+    fig.update_layout(height = 450 , margin = {'t':60, 'b':0, 'r':10}, yaxis=dict(autorange="reversed"), 
                     title_text=company1_name, title_font_size=13, title_x=0.5)
     return fig
 
@@ -482,7 +487,7 @@ def update_graph(company1):
     Input(component_id='company_dropdown2_tab2', component_property='value')
 )
 def update_graph(company2):
-    bigram_dict = bigram_file.set_index('Company').BigramArray.loc[company2]
+    bigram_dict = bigram_file.set_index('company').bigramArray.loc[company2]
     bigram_dict = ast.literal_eval(bigram_dict)
     words = [w[0] for w in bigram_dict]
     counts = [w[1] for w in bigram_dict]
@@ -493,7 +498,7 @@ def update_graph(company2):
             y=words,
             orientation='h',
             marker_color=px.colors.sequential.Tealgrn))
-    fig.update_layout(height = 450 , margin = {'t':60, 'b':0}, yaxis=dict(autorange="reversed"), 
+    fig.update_layout(height = 450 , margin = {'t':60, 'b':0, 'r':10}, yaxis=dict(autorange="reversed"), 
                     title_text=company2_name, title_font_size=13, title_x=0.5)
     return fig
 
