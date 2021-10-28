@@ -39,7 +39,7 @@ initiatives_dict = initiatives_file.set_index('Initiative').T.to_dict('list')
 all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company', 'Type', 'Initiatives', 'Count'])
 
 # For decarbonization percentage
-ratings_file = pd.read_csv('data/all_percentile_t8.csv', usecols=['name', 'percent', 'type'])
+ratings_file = pd.read_csv('data/all_percentile_t14.csv', usecols=['name', 'percent', 'type'])
 
 # For sentiment 
 sentiment_file = pd.read_csv('data/sentiment_dummy.csv', usecols=['Company', 'Sentiment', 'type'])
