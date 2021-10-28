@@ -103,14 +103,20 @@ card_sentiment_comparison = dbc.Card([
 card_bigram_comparison1 = dbc.Card([
     dbc.CardBody([
         html.H5('Top 10 Occurring Bigrams', className='card-header text-center'),
-        dcc.Graph(id='bigram1', figure={})
+        dcc.Graph(id='bigram1', figure={}),
+        html.Br(),
+        html.P('Values represent the TF-IDF score of a word pair in a document \
+                where TF-IDF score = term frequency X inverse document frequency', className='card-footer')
     ])
 ])
 
 card_bigram_comparison2 = dbc.Card([
     dbc.CardBody([
         html.H5('Top 10 Occurring Bigrams', className='card-header text-center'),
-        dcc.Graph(id='bigram2', figure={})
+        dcc.Graph(id='bigram2', figure={}),
+        html.Br(),
+        html.P('Values represent the TF-IDF score of a word pair in a document \
+                where TF-IDF score = term frequency X inverse document frequency', className='card-footer')
     ])
 ])
 
@@ -469,14 +475,16 @@ def update_graph(company1):
     bigram_dict = bigram_file.set_index('company').bigramArray.loc[company1]
     bigram_dict = ast.literal_eval(bigram_dict)
     words = [w[0] for w in bigram_dict]
-    counts = [w[1] for w in bigram_dict]
+    counts = [round(w[1],3) for w in bigram_dict]
     company1_name = company_display_dict[company1]
 
     fig = go.Figure(go.Bar(
             x=counts,
             y=words,
             orientation='h',
-            marker_color=px.colors.sequential.Tealgrn))
+            marker_color=px.colors.sequential.Tealgrn,
+            text=counts,
+            textposition='inside'))
     fig.update_layout(height = 450 , margin = {'t':60, 'b':0, 'r':10}, yaxis=dict(autorange="reversed"), 
                     title_text=company1_name, title_font_size=13, title_x=0.5)
     return fig
@@ -490,14 +498,16 @@ def update_graph(company2):
     bigram_dict = bigram_file.set_index('company').bigramArray.loc[company2]
     bigram_dict = ast.literal_eval(bigram_dict)
     words = [w[0] for w in bigram_dict]
-    counts = [w[1] for w in bigram_dict]
+    counts = [round(w[1],3) for w in bigram_dict]
     company2_name = company_display_dict[company2]
     
     fig = go.Figure(go.Bar(
             x=counts,
             y=words,
             orientation='h',
-            marker_color=px.colors.sequential.Tealgrn))
+            marker_color=px.colors.sequential.Tealgrn,
+            text=counts,
+            textposition='inside'))
     fig.update_layout(height = 450 , margin = {'t':60, 'b':0, 'r':10}, yaxis=dict(autorange="reversed"), 
                     title_text=company2_name, title_font_size=13, title_x=0.5)
     return fig
