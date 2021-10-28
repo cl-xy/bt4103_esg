@@ -1,126 +1,126 @@
-﻿FullName,ShortForm,Type
-Aegon Asset Management,Aegon,am
-AIA Group,AIA,ins
-Allianz Global Investors,ALLIANZ,am
-Ameriprise Financial,Ameriprise,am
-AP Fonden 1,AP1,pf
-AP Fonden 2,AP2,pf
-AP Fonden 3,AP3,pf
-AP Fonden 4,AP4,pf
-AP Fonden 7,AP7,pf
-Asahi Mutual Life Insurance,AsahiMutual,ins
-Ashmore Group,Ashmore,am
-Asian Infrastructure Investment Bank,AIIB,ab
-Aviva Investors,AVIVA,am
-AXA Insurance,AXA,ins 
-AXA Investment Managers,AXAAM,am
-Bangkok Bank,BangkokBank,ab
-Bank Danamon,Danamon,ab
-Bank Mandiri,Mandiri,ab
-Bank Negara Indonesia,BNI,ab
-Bank of America,BOA,am
-Bank of China,BOC,ab
-Bank of China (Hong Kong),BOCHK,am
-Bank of East Asia,BEA,ab
-Bank Rakyat Indonesia,BRI,ab
-Barings,Barings,am
-BDO Unibank,BDO,ab
-BlackRock,BlackRock,am
-BNP Paribas,BNP,am
-BNY Mellon,Mellon,am
-BOCOM International ,BOCOM,am
-Bureau of Labor Funds,LPF,pf
-Capital Group,CAPITAL,am
-Cathay Life Insurance,Cathay,ins
-China CITIC Bank,CITICBank,ab
-China Construction Bank,CCB,ab
-China Everbright Limited,EVERBRIGHT,am
-China International Capital Corporation,CICC,am
-China Merchants Bank,CMB,ab
-China Minsheng Bank,CMBC,am
-Chong Hing Bank,CHBank,ab
-CIMB,CIMB,ab
-Citibank,CitiBank,ab
-CITIC Capital,CITICCapital,am
-CPP Investment Board,CPP,pf
-Credit Suisse,CreditSuisse,am
-Dah Sing Bank,Dahsing,ab
-Dai-ichi Life,DaiichiLife,ins
-DBS Bank,DBS,ab
-Deutsche Bank,Deutsche,am
-DGB Financial Group,DGB,ins
-E Fund Management,EFUND,am
-Edward Jones Investments,Edward,am
-Employees Provident Fund,KWSP_EPF,pf
-Fidelity International,FIDELITY,am
-First Sentier Investors,1STSTATE,am
-Fisch Asset Management,Fisch,am
-Fonds de Compensation,FDC,pf
-Fukoku Mutual Life Insurance,Fukoku,ins
-Fullerton Fund Management,Fullerton,am
-Future Fund,FF,pf
-FWD Insurance,FWD,ins
-GAM Investments,GAM,am
-Goldman Sachs,GOLDMAN,am
-Government Employees Pension Fund,GEPF,pf
-Government Pension Fund Global,GPF,pf
-Government Pension Investment Fund,GPIF,pf
-Hana Financial Group,Hana,ab
-Hang Seng Bank,HANGSENG,am
-Hong Leong Bank,HLB,ab
-HSBC,HSBCBank,ab
-HSBC Asset Management,HSBCAM,am
-Industrial and Commercial Bank of China,ICBC,ab
-Insight Investment,Insight,am
-Invesco,Invesco,am
-Ireland Strategic Investment Fund,ISIF,pf
-Japan Post Insurance,JapanPost,ins
-JPMorgan Chase,JPMORGAN,am
-KB Financial Group,KBFG,ins
-Krungthai Bank,Krungthai,ab
-Kyobo Life Insurance,Kyobo,ins
-Legal & General,Legal&General,am
-Manulife,Manulife,am
-Maybank,Maybank,ab
-Meiji Yasuda Life,MeijiYasuda,ins
-Mizuho Bank,Mizuho,ab
-Morgan Stanley,Morgan,am
-MUFG Bank,MUFG,ab
-Muzinich & Co.,Muzinich,am
-Nan Shan Life Insurance,NanShanLife,ins
-National Pension Service,NPF,pf
-Natixis,Natixis,am
-Neuberger Berman,Neuberger,am
-New Zealand Superannuation Fund,NZSF,pf
-Ninety One,Ninetyone,am
-Nippon Life,NipponLife,ins
-OCBC Bank,OCBC,ab
-PGIM Real Estate,PGIM,am
-Pictet Group,PICTET,am
-PIMCO,PIMCO,am
-PineBridge Investments,Pinebridge,am
-Ping An Insurance,PingAn,ins
-Postal Savings Bank of China,PSBC,ab
-Prudential,Prudential,ins
-RHB Bank,RHB,ab
-Schroders,Schroders,am
-Shin Kong Insurance,ShinKong,ins
-Shinhan Financial Group,Shinhan,ab
-Siam Commercial Bank,SCB,ab
-Sinopac Financial Holdings,Sinopac,am
-Standard Life Aberdeen,ABERDEEN,am
-State Bank of India,SBI,ab
-Stone Harbor Investment Partners,Harbor,am
-Sumitomo Mitsui Trust Holdings,SMTH,am
-Sun Life Financial,SunLife,ins
-T. Rowe Price,TROWEPRICE,am
-Taiwan Life Insurance,TaiwanLife,ins
-TCW Group,TCW,am
-TIAA,TIAA,am
-Tokio Marine Holdings,TokioMarine,ins
-UBS,UBS,am
-United Overseas Bank,UOB,ab
-UOB Asset Management,UOBAM,am
-Value Partners,VP,am
-Vanguard,Vanguard,am
-Wellington Management,Wellington,am
+﻿FullName,ShortForm,ForDisplay,Type
+Aegon Asset Management,Aegon,Aegon,am
+AIA Group,AIA,AIA,ins
+Allianz Global Investors,ALLIANZ,Allianz,am
+Ameriprise Financial,Ameriprise,Ameriprise,am
+AP Fonden 1,AP1,AP Fonden 1,pf
+AP Fonden 2,AP2,AP Fonden 2,pf
+AP Fonden 3,AP3,AP Fonden 3,pf
+AP Fonden 4,AP4,AP Fonden 4,pf
+AP Fonden 7,AP7,AP Fonden 7,pf
+Asahi Mutual Life Insurance,AsahiMutual,Asahi Life,ins
+Ashmore Group,Ashmore,Ashmore,am
+Asian Infrastructure Investment Bank,AIIB,AIIB,ab
+Aviva Investors,AVIVA,Aviva,am
+AXA Insurance,AXA,AXA,ins 
+AXA Investment Managers,AXAAM,AXA IM,am
+Bangkok Bank,BangkokBank,Bangkok Bank,ab
+Bank Danamon,Danamon,Bank Danamon,ab
+Bank Mandiri,Mandiri,Bank Mandiri,ab
+Bank Negara Indonesia,BNI,BNI,ab
+Bank of America,BOA,BofA,am
+Bank of China,BOC,BOC,ab
+Bank of China (Hong Kong),BOCHK,BOCHK,am
+Bank of East Asia,BEA,BEA,ab
+Bank Rakyat Indonesia,BRI,BRI,ab
+Barings,Barings,Barings,am
+BDO Unibank,BDO,BDO,ab
+BlackRock,BlackRock,BlackRock,am
+BNP Paribas,BNP,BNP Paribas,am
+BNY Mellon,Mellon,BNY Mellon ,am
+BOCOM International ,BOCOM,BOCOM,am
+Bureau of Labor Funds,LPF,BLF,pf
+Capital Group,CAPITAL,Capital Group,am
+Cathay Life Insurance,Cathay,Cathay Life,ins
+China CITIC Bank,CITICBank,CNCBI,ab
+China Construction Bank,CCB,CCB,ab
+China Everbright Limited,EVERBRIGHT,Everbright,am
+China International Capital Corporation,CICC,CICC,am
+China Merchants Bank,CMB,CMB,ab
+China Minsheng Banking Corporation,CMBC,CMBC,am
+Chong Hing Bank,CHBank,Chong Hing,ab
+CIMB,CIMB,CIMB,ab
+Citibank,CitiBank,Citibank,ab
+CITIC Capital,CITICCapital,CITIC Capital,am
+CPP Investment Board,CPP,CPP,pf
+Credit Suisse,CreditSuisse,Credit Suisse,am
+Dah Sing Bank,Dahsing,Dah Sing,ab
+Dai-ichi Life,DaiichiLife,Dai-ichi Life,ins
+DBS Bank,DBS,DBS,ab
+Deutsche Bank,Deutsche,Deutsche,am
+DGB Financial Group,DGB,DGB,ins
+E Fund Management,EFUND,E Fund,am
+Edward Jones Investments,Edward,Edward Jones,am
+Employees Provident Fund,KWSP_EPF,EPF,pf
+Fidelity International,FIDELITY,Fidelity,am
+First Sentier Investors,1STSTATE,First Sentier,am
+Fisch Asset Management,Fisch,Fisch,am
+Fonds de Compensation,FDC,FDC,pf
+Fukoku Mutual Life Insurance,Fukoku,Fukoku Life,ins
+Fullerton Fund Management,Fullerton,Fullerton,am
+Future Fund,FF,Future Fund,pf
+FWD Insurance,FWD,FWD,ins
+GAM Investments,GAM,GAM,am
+Goldman Sachs,GOLDMAN,Goldman Sachs,am
+Government Employees Pension Fund,GEPF,GEPF,pf
+Government Pension Fund Global,GPF,GPF,pf
+Government Pension Investment Fund,GPIF,GPIF,pf
+Hana Financial Group,Hana,Hana Bank,ab
+Hang Seng Bank,HANGSENG,Hang Seng,am
+Hong Leong Bank,HLB,Hong Leong,ab
+HSBC,HSBCBank,HSBC,ab
+HSBC Asset Management,HSBCAM,HSBC AM,am
+Industrial and Commercial Bank of China,ICBC,ICBC,ab
+Insight Investment,Insight,Insight,am
+Invesco,Invesco,Invesco,am
+Ireland Strategic Investment Fund,ISIF,ISIF,pf
+Japan Post Insurance,JapanPost,JP Insurance,ins
+JPMorgan Chase,JPMORGAN,JPMorgan Chase,am
+KB Financial Group,KBFG,KB Financial,ins
+Krungthai Bank,Krungthai,KTB,ab
+Kyobo Life Insurance,Kyobo,Kyobo Life,ins
+Legal & General,Legal&General,L&G,am
+Manulife,Manulife,Manulife,am
+Maybank,Maybank,Maybank,ab
+Meiji Yasuda Life,MeijiYasuda,Meiji Yasuda,ins
+Mizuho Bank,Mizuho,Mizuho Bank,ab
+Morgan Stanley,Morgan,Morgan Stanley,am
+MUFG Bank,MUFG,MUFG,ab
+Muzinich & Co.,Muzinich,Muzinich,am
+Nan Shan Life Insurance,NanShanLife,Nan Shan Life,ins
+National Pension Service,NPF,NPS,pf
+Natixis,Natixis,Natixis,am
+Neuberger Berman,Neuberger,NB,am
+New Zealand Superannuation Fund,NZSF,NZSF,pf
+Ninety One,Ninetyone,Ninety One,am
+Nippon Life,NipponLife,Nippon Life,ins
+OCBC Bank,OCBC,OCBC,ab
+PGIM Real Estate,PGIM,PGIM,am
+Pictet Group,PICTET,Pictet,am
+PIMCO,PIMCO,PIMCO,am
+PineBridge Investments,Pinebridge,PineBridge,am
+Ping An Insurance,PingAn,Ping An,ins
+Postal Savings Bank of China,PSBC,PSBC,ab
+Prudential,Prudential,Prudential,ins
+RHB Bank,RHB,RHB,ab
+Schroders,Schroders,Schroders,am
+Shin Kong Insurance,ShinKong,Shin Kong,ins
+Shinhan Financial Group,Shinhan,Shinhan,ab
+Siam Commercial Bank,SCB,SCB,ab
+Sinopac Financial Holdings,Sinopac,SinoPac,am
+Standard Life Aberdeen,ABERDEEN,Standard Life,am
+State Bank of India,SBI,SBI,ab
+Stone Harbor Investment Partners,Harbor,Stone Harbor,am
+Sumitomo Mitsui Trust Holdings,SMTH,SuMi TRUST,am
+Sun Life Financial,SunLife,Sun Life,ins
+T. Rowe Price,TROWEPRICE,T. Rowe Price,am
+Taiwan Life Insurance,TaiwanLife,Taiwan Life,ins
+TCW Group,TCW,TCW,am
+TIAA,TIAA,TIAA,am
+Tokio Marine Holdings,TokioMarine,Tokio Marine,ins
+UBS,UBS,UBS,am
+United Overseas Bank,UOB,UOB,ab
+UOB Asset Management,UOBAM,UOB AM,am
+Value Partners,VP,Value Partners,am
+Vanguard,Vanguard,Vanguard,am
+Wellington Management,Wellington,Wellington,am

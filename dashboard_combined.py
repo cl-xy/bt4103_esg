@@ -51,35 +51,35 @@ word_count_file = pd.read_csv('data/all_word_count_top10.csv', usecols=['name', 
 # Cards --------------------------------------------------------------------------------
 card_sentiment = dbc.Card([
     dbc.CardBody([
-        html.H5('Overall Sentiment Level', className='text-center'),
+        html.H5('Overall Sentiment Level', className='card-header text-center'),
         dcc.Graph(id='sentiment_gauge', figure={})
     ])
 ])
 
 card_percentage = dbc.Card([
     dbc.CardBody([
-        html.H5('Percentage of Decarbonization Disclosure', className='text-center'),
+        html.H5('Decarbonization Disclosure (%)', className='card-header text-center'),
         dcc.Graph(id='percentage_barplot', figure={})
     ])
 ])
 
 card_initiative_count = dbc.Card([
     dbc.CardBody([
-        html.H5('Global Standards & Initiatives Count', className='text-center'),
+        html.H5('Global Standards & Initiatives Count', className='card-header text-center'),
         dcc.Graph(id='initiative_barplot', figure={})
     ])
 ])
 
 card_initiative_table = dbc.Card([
     dbc.CardBody([
-        html.H5('Global Standards & Initiatives', className='text-center'),
+        html.H5('Global Standards & Initiatives', className='card-header text-center'),
         dcc.Graph(id='initiative_table', figure={})
     ])
 ])
 
 card_word_count = dbc.Card([
     dbc.CardBody([
-        html.H5('Top 10 Word Count', className='text-center'),
+        html.H5('Top 10 Word Count', className='card-header text-center'),
         dcc.Graph(id='word_count', figure={})
     ])
 ])
@@ -281,7 +281,7 @@ def update_graph(type_of_fi, company):
             text=[average, rating],
             textposition='inside'))
     fig.update_traces(width=0.6)
-    fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
+    fig.update_layout(height = 200 , margin = {'t':10, 'b':0, 'r':10})
     return fig 
 
 # To update barplot for initiative count
@@ -306,7 +306,7 @@ def update_graph(type_of_fi, company):
             text=[average, count],
             textposition='inside'))
     fig.update_traces(width=0.6)
-    fig.update_layout(height = 200 , margin = {'t':10, 'b':0})
+    fig.update_layout(height = 200 , margin = {'t':10, 'b':0, 'r':10})
     return fig 
 
 # To update Global Initiatives Table
@@ -363,7 +363,7 @@ def update_graph(company):
             marker_color=px.colors.sequential.Tealgrn,
             text=counts,
             textposition='inside'))
-    fig.update_layout(height = 450 , margin = {'t':10, 'b':0}, yaxis=dict(autorange="reversed"))
+    fig.update_layout(height = 450 , margin = {'t':10, 'b':0, 'r':10, 'l':10}, yaxis=dict(autorange="reversed"))
     return fig 
 
 # ---------- For Tab 2 ----------
