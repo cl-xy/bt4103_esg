@@ -42,7 +42,7 @@ all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company
 ratings_file = pd.read_csv('data/all_percentile_t14.csv', usecols=['name', 'percent', 'type'])
 
 # For sentiment 
-sentiment_file = pd.read_csv('data/sentiment_dummy.csv', usecols=['Company', 'Sentiment', 'type'])
+sentiment_file = pd.read_csv('data/sentiment_score_updated.csv', usecols=['name', 'sentiment_score', 'type'])
 
 # For bigram
 bigram_file = pd.read_csv('data/bigram_df.csv', usecols=['company', 'bigramArray'])
@@ -253,22 +253,22 @@ def update_dropdown(type_of_fi):
 def update_graph(type_of_fi, company):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = sentiment_file.loc[sentiment_file['type'] == type_of_fi]
-    count_array = sub_df['Sentiment'].values.tolist()
+    count_array = sub_df['sentiment_score'].values.tolist()
 
-    sentiment = sentiment_file.set_index('Company').Sentiment.loc[company]
-    average = round(sum(count_array) / len(count_array), 1)
+    sentiment = round(sentiment_file.set_index('name').sentiment_score.loc[company], 2)
+    average = round(sum(count_array) / len(count_array), 2)
     fig = go.Figure(go.Indicator(
         domain = {'x': [0, 1], 'y': [0, 1]},
         value = sentiment, # company's sentiment
         mode = "gauge+number+delta",
         delta = {'reference': average}, # average
-        gauge = {'axis': {'range': [None, 5]},
+        gauge = {'axis': {'range': [None, 1]},
                 'bar': {'color': "black"},
                 'steps' : [
-                    {'range': [0, 1.25], 'color': "#F25757"}, 
-                    {'range': [1.25, 2.5], 'color': "#FFC15E"}, 
-                    {'range': [2.5, 3.75], 'color': "#F5FF90"}, 
-                    {'range': [3.75, 5], 'color': "#58CC00"}], 
+                    {'range': [0, 0.25], 'color': "#F25757"}, 
+                    {'range': [0.25, 0.5], 'color': "#FFC15E"}, 
+                    {'range': [0.5, 0.75], 'color': "#F5FF90"}, 
+                    {'range': [0.75, 1], 'color': "#58CC00"}], 
                 'threshold' : {'line': {'color': "red", 'width': 3.7}, 'thickness': 0.75, 'value': average}}))
     fig.update_layout(height = 200, margin = {'t':10, 'b':0})
     return fig
@@ -446,11 +446,11 @@ def update_graph(type_of_fi, company1, company2):
 def update_graph(type_of_fi, company1, company2):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = sentiment_file.loc[sentiment_file['type'] == type_of_fi]
-    sentiment_array = sub_df['Sentiment'].values.tolist()
-    average = round(sum(sentiment_array) / len(sentiment_array), 1)
+    sentiment_array = sub_df['sentiment_score'].values.tolist()
+    average = round(sum(sentiment_array) / len(sentiment_array), 2)
 
-    sentiment1 = sentiment_file.set_index('Company').Sentiment.loc[company1]
-    sentiment2 = sentiment_file.set_index('Company').Sentiment.loc[company2]
+    sentiment1 = round(sentiment_file.set_index('name').sentiment_score.loc[company1], 2)
+    sentiment2 = round(sentiment_file.set_index('name').sentiment_score.loc[company2], 2)
 
     company1_name = company_display_dict[company1]
     company2_name = company_display_dict[company2]
