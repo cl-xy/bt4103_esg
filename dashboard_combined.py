@@ -22,9 +22,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MATERIA],
 
 # Load Data --------------------------------------------------------------------------
 # Load company names to display in dropdown menu
-companylabels_file = pd.read_csv('data/companylabels.csv', usecols=['FullName', 'ShortForm', 'Type'])
-company_names = pd.read_csv('data/companylabels.csv', usecols=['ShortForm', 'ForDisplay'])
-company_display_dict = dict(company_names.values)
+companylabels_file = pd.read_csv('data/companylabels.csv', usecols=['fullname', 'shortform', 'type'])
 
 # To map type of FI to its abbrievation
 fi_dict = {'ab': 'AB', 'am': 'AM', 'ins': 'INS', 'pf': 'PF'}
@@ -36,7 +34,7 @@ initiatives_file = initiatives_file.replace({np.nan: '-'})
 # dictionary: key-initiative spelled out fully, value-[acronym, description]
 initiatives_dict = initiatives_file.set_index('Initiative').T.to_dict('list')
 # read csv containing all initiatives
-all_initiative_array = pd.read_csv('data/all_initiatives.csv', usecols=['Company', 'Type', 'Initiatives', 'Count'])
+all_initiative_array = pd.read_csv('results/all_initiatives.csv', usecols=['name', 'initiatives', 'count', 'type'])
 
 # For decarbonization percentage
 ratings_file = pd.read_csv('data/all_percentile_t14.csv', usecols=['name', 'percent', 'type'])
@@ -240,7 +238,7 @@ app.layout = dbc.Container([
     Input(component_id='type_of_fi_dropdown_tab1', component_property='value')
 )
 def update_dropdown(type_of_fi):
-    sub_df = companylabels_file.loc[companylabels_file['Type'] == type_of_fi]
+    sub_df = companylabels_file.loc[companylabels_file['type'] == type_of_fi]
     options = [{'label': x[0], 'value': x[1]} for x in sub_df.values.tolist()]
     return options
 
@@ -283,13 +281,12 @@ def update_graph(type_of_fi, company):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = ratings_file.loc[ratings_file['type'] == type_of_fi]
     count_array = sub_df['percent'].values.tolist()
-    company_name = company_display_dict[company]
 
     rating = round(ratings_file.set_index('name').percent.loc[company], 2)
     average = round(sum(count_array) / len(count_array), 2)
     fig = go.Figure(go.Bar(
             x=[average, rating],
-            y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company_name],
+            y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company],
             orientation='h',
             marker_color=['#4EADAF', '#88DEB0'],
             text=[average, rating],
@@ -306,16 +303,15 @@ def update_graph(type_of_fi, company):
 )
 def update_graph(type_of_fi, company):
     # Extract out dataframe for relevant FI, used for aggregation
-    sub_df = all_initiative_array.loc[all_initiative_array['Type'] == type_of_fi]
-    count_array = sub_df['Count'].values.tolist()
-    company_name = company_display_dict[company]
+    sub_df = all_initiative_array.loc[all_initiative_array['type'] == type_of_fi]
+    count_array = sub_df['count'].values.tolist()
 
-    company_initiative = all_initiative_array.set_index('Company').Initiatives.loc[company]
+    company_initiative = all_initiative_array.set_index('name').initiatives.loc[company]
     count = len(ast.literal_eval(company_initiative))
     average = round(sum(count_array) / len(count_array))
     fig = go.Figure(go.Bar(
             x=[average, count],
-            y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company_name],
+            y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company],
             orientation='h',
             marker_color=['#4EADAF', '#88DEB0'],
             text=[average, count],
@@ -330,7 +326,7 @@ def update_graph(type_of_fi, company):
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
 def update_graph(option_slctd):
-    company_initiative = all_initiative_array.set_index('Company').Initiatives.loc[option_slctd]
+    company_initiative = all_initiative_array.set_index('name').initiatives.loc[option_slctd]
     company_initiative = ast.literal_eval(company_initiative)
     company_initiative = sorted(company_initiative)
     
@@ -388,7 +384,7 @@ def update_graph(company):
     Input(component_id='type_of_fi_dropdown_tab2', component_property='value')
 )
 def update_dropdown(type_of_fi):
-    sub_df = companylabels_file.loc[companylabels_file['Type'] == type_of_fi]
+    sub_df = companylabels_file.loc[companylabels_file['type'] == type_of_fi]
     options = [{'label': x[0], 'value': x[1]} for x in sub_df.values.tolist()]
     return options
 
@@ -399,7 +395,7 @@ def update_dropdown(type_of_fi):
     Input(component_id='type_of_fi_dropdown_tab2', component_property='value')
 )
 def update_dropdown(company1, type_of_fi):
-    sub_df = companylabels_file.loc[companylabels_file['Type'] == type_of_fi]
+    sub_df = companylabels_file.loc[companylabels_file['type'] == type_of_fi]
     options = [{'label': x[0], 'value': x[1]} for x in sub_df.values.tolist() if x[1] != company1]
     return options
 
@@ -419,16 +415,13 @@ def update_graph(type_of_fi, company1, company2):
     percent1 = round(ratings_file.set_index('name').percent.loc[company1], 2)
     percent2 = round(ratings_file.set_index('name').percent.loc[company2], 2)
 
-    company1_name = company_display_dict[company1]
-    company2_name = company_display_dict[company2]
-
     labels = ["Decarbonization Related", "Decarbonization Unrelated"]
     fig = make_subplots(rows=1, cols=3, 
         specs=[[{'type':'domain'}, {'type':'domain'}, {'type':'domain'}]], 
-        subplot_titles=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company1_name, company2_name])
+        subplot_titles=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company1, company2])
     fig.add_trace(go.Pie(labels=labels, values=[average, 100-average], name="Average", pull=[0.2, 0]), 1, 1)
-    fig.add_trace(go.Pie(labels=labels, values=[percent1, 100-percent1], name=company1_name, pull=[0.2, 0]), 1, 2)
-    fig.add_trace(go.Pie(labels=labels, values=[percent2, 100-percent2], name=company2_name, pull=[0.2, 0]), 1, 3)
+    fig.add_trace(go.Pie(labels=labels, values=[percent1, 100-percent1], name=company1, pull=[0.2, 0]), 1, 2)
+    fig.add_trace(go.Pie(labels=labels, values=[percent2, 100-percent2], name=company2, pull=[0.2, 0]), 1, 3)
 
     fig.update_traces(hoverinfo="label+percent+name", marker_colors=['#88DEB0', '#4EADAF'])
     fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="auto"), 
@@ -451,13 +444,10 @@ def update_graph(type_of_fi, company1, company2):
 
     sentiment1 = round(sentiment_file.set_index('name').sentiment_score.loc[company1], 2)
     sentiment2 = round(sentiment_file.set_index('name').sentiment_score.loc[company2], 2)
-
-    company1_name = company_display_dict[company1]
-    company2_name = company_display_dict[company2]
     
     fig = go.Figure(go.Bar(
             x=[average, sentiment2, sentiment1],
-            y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company2_name, company1_name],
+            y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company2, company1],
             orientation='h',
             marker_color=['#4EADAF', '#69C6AF','#88DEB0'],
             text=[average, sentiment2, sentiment1],
@@ -476,7 +466,6 @@ def update_graph(company1):
     bigram_dict = ast.literal_eval(bigram_dict)
     words = [w[0] for w in bigram_dict]
     counts = [round(w[1],3) for w in bigram_dict]
-    company1_name = company_display_dict[company1]
 
     fig = go.Figure(go.Bar(
             x=counts,
@@ -486,7 +475,7 @@ def update_graph(company1):
             text=counts,
             textposition='inside'))
     fig.update_layout(height = 450 , margin = {'t':60, 'b':0, 'r':10}, yaxis=dict(autorange="reversed"), 
-                    title_text=company1_name, title_font_size=13, title_x=0.5)
+                    title_text=company1, title_font_size=13, title_x=0.5)
     return fig
 
 # To update bigram chart 2
@@ -499,7 +488,6 @@ def update_graph(company2):
     bigram_dict = ast.literal_eval(bigram_dict)
     words = [w[0] for w in bigram_dict]
     counts = [round(w[1],3) for w in bigram_dict]
-    company2_name = company_display_dict[company2]
     
     fig = go.Figure(go.Bar(
             x=counts,
@@ -509,7 +497,7 @@ def update_graph(company2):
             text=counts,
             textposition='inside'))
     fig.update_layout(height = 450 , margin = {'t':60, 'b':0, 'r':10}, yaxis=dict(autorange="reversed"), 
-                    title_text=company2_name, title_font_size=13, title_x=0.5)
+                    title_text=company2, title_font_size=13, title_x=0.5)
     return fig
 
 # -------------------------------------------------------------------------------------
