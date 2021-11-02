@@ -288,7 +288,7 @@ def update_graph(type_of_fi, company):
             x=[average, rating],
             y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company],
             orientation='h',
-            marker_color=['#4EADAF', '#88DEB0'],
+            marker_color=['rgb(76, 200, 163)', 'rgb(176, 242, 188)'],
             text=[average, rating],
             textposition='inside'))
     fig.update_traces(width=0.6)
@@ -313,7 +313,7 @@ def update_graph(type_of_fi, company):
             x=[average, count],
             y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company],
             orientation='h',
-            marker_color=['#4EADAF', '#88DEB0'],
+            marker_color=['rgb(76, 200, 163)', 'rgb(176, 242, 188)'],
             text=[average, count],
             textposition='inside'))
     fig.update_traces(width=0.6)
@@ -339,11 +339,11 @@ def update_graph(option_slctd):
     df = pd.DataFrame(data, columns = ['Initiatives', 'Acronym', 'Details'])
 
     fig = go.Figure(data=[go.Table(
-        columnwidth = [100, 50, 400],
+        columnwidth = [100, 60, 400],
         header = dict(
-            values=list(df.columns),
+            values=['<b>Initiatives</b>', '<b>Acronym</b>', '<b>Details</b>'],
             font_color='rgb(100,100,100)',
-            fill_color='aquamarine',
+            fill_color='rgb(176, 242, 188)',
             align='left'),
         cells = dict(
             values=[df.Initiatives, df.Acronym, df.Details],
@@ -423,7 +423,7 @@ def update_graph(type_of_fi, company1, company2):
     fig.add_trace(go.Pie(labels=labels, values=[percent1, 100-percent1], name=company1, pull=[0.2, 0]), 1, 2)
     fig.add_trace(go.Pie(labels=labels, values=[percent2, 100-percent2], name=company2, pull=[0.2, 0]), 1, 3)
 
-    fig.update_traces(hoverinfo="label+percent+name", marker_colors=['#88DEB0', '#4EADAF'])
+    fig.update_traces(hoverinfo="label+percent+name", marker_colors=['rgb(176, 242, 188)', 'rgb(56, 178, 163)'])
     fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="auto"), 
         height = 350, margin = {'t':60, 'b':0, 'r':50, 'l':50})
     fig.update_annotations(font_size=13, font_color='black')
@@ -449,7 +449,7 @@ def update_graph(type_of_fi, company1, company2):
             x=[average, sentiment2, sentiment1],
             y=['Average' + ' (' + fi_dict[type_of_fi] + ')*', company2, company1],
             orientation='h',
-            marker_color=['#4EADAF', '#69C6AF','#88DEB0'],
+            marker_color=['rgb(56, 178, 163)','#88DEB0', 'rgb(176, 242, 188)'],
             text=[average, sentiment2, sentiment1],
             textposition='inside'))
     fig.update_traces(width=0.6)
