@@ -37,16 +37,16 @@ initiatives_dict = initiatives_file.set_index('Initiative').T.to_dict('list')
 all_initiative_array = pd.read_csv('results/all_initiatives.csv', usecols=['name', 'initiatives', 'count', 'type'])
 
 # For decarbonization percentage
-ratings_file = pd.read_csv('data/all_percentile_t14.csv', usecols=['name', 'percent', 'type'])
+ratings_file = pd.read_csv('results/all_percentile_t14.csv', usecols=['name', 'percent', 'type'])
 
 # For sentiment 
-sentiment_file = pd.read_csv('data/sentiment_score_updated.csv', usecols=['name', 'sentiment_score', 'type'])
+sentiment_file = pd.read_csv('results/sentiment_score_latest.csv', usecols=['name', 'sentiment_score', 'type'])
 
 # For bigram
 bigram_file = pd.read_csv('data/bigram_df.csv', usecols=['company', 'bigramArray'])
 
 # For wordcount
-word_count_file = pd.read_csv('data/all_word_count_top10.csv', usecols=['name', 'bigram', 'count'])
+word_count_file = pd.read_csv('results/all_word_count_top10.csv', usecols=['name', 'bigram', 'count'])
 
 # Cards --------------------------------------------------------------------------------
 card_sentiment = dbc.Card([
