@@ -194,8 +194,8 @@ tab2_content = dbc.Card(
         ]),
         html.Br(),
         dbc.Row([ # Third Row
-            dbc.Col([card_percentage_comparison], width={'size':7, 'offset':0, 'order':1}),
-            dbc.Col([card_sentiment_comparison], width={'size':5, 'offset':0, 'order':2})
+            dbc.Col([card_sentiment_comparison], width={'size':6, 'offset':0, 'order':1}),
+            dbc.Col([card_percentage_comparison], width={'size':6, 'offset':0, 'order':2})
         ]),
         html.Br(),
         dbc.Row([
@@ -425,7 +425,7 @@ def update_graph(type_of_fi, company1, company2):
 
     fig.update_traces(hoverinfo="label+percent+name", marker_colors=['#88DEB0', '#4EADAF'])
     fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="auto"), 
-        height = 350, margin = {'t':50, 'b':0})
+        height = 350, margin = {'t':60, 'b':0, 'r':50, 'l':50})
     fig.update_annotations(font_size=13, font_color='black')
     return fig
 
