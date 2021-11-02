@@ -43,7 +43,7 @@ ratings_file = pd.read_csv('results/all_percentile_t14.csv', usecols=['name', 'p
 sentiment_file = pd.read_csv('results/sentiment_score_latest.csv', usecols=['name', 'sentiment_score', 'type'])
 
 # For bigram
-bigram_file = pd.read_csv('data/bigram_df.csv', usecols=['company', 'bigramArray'])
+bigram_file = pd.read_csv('results/bigram_df.csv', usecols=['name', 'bigramarray'])
 
 # For wordcount
 word_count_file = pd.read_csv('results/all_word_count_top10.csv', usecols=['name', 'bigram', 'count'])
@@ -462,7 +462,7 @@ def update_graph(type_of_fi, company1, company2):
     Input(component_id='company_dropdown_tab2', component_property='value')
 )
 def update_graph(company1):
-    bigram_dict = bigram_file.set_index('company').bigramArray.loc[company1]
+    bigram_dict = bigram_file.set_index('name').bigramarray.loc[company1]
     bigram_dict = ast.literal_eval(bigram_dict)
     words = [w[0] for w in bigram_dict]
     counts = [round(w[1],3) for w in bigram_dict]
@@ -484,7 +484,7 @@ def update_graph(company1):
     Input(component_id='company_dropdown2_tab2', component_property='value')
 )
 def update_graph(company2):
-    bigram_dict = bigram_file.set_index('company').bigramArray.loc[company2]
+    bigram_dict = bigram_file.set_index('name').bigramarray.loc[company2]
     bigram_dict = ast.literal_eval(bigram_dict)
     words = [w[0] for w in bigram_dict]
     counts = [round(w[1],3) for w in bigram_dict]
