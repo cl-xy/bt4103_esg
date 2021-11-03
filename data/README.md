@@ -6,26 +6,16 @@ Spreadsheet containing pdf links of sustainability reports from about 200 financ
 ## ESG_Initiatives.xlsx
 Table of global environmental initiatives, acronyms & short descriptions
 
-## ab_cleaned.csv
-to check what is this
-
-## ab_numerics.csv
-pending, still doing
-
 ## all_unfiltered.csv
 Concatenation of dataframes of all 4 types of financial institutions
 
-## all_percentile.csv
+## all_percentile_t14.csv
 Finding percentile for each company by using the topic modelling algorithm to label a dominant topic for each document. 
 
 After which, each document is classified into E/S/G based on their dominant topic. 
 
-Under E: topic 2
-Under S: topics 4 & 7
-Under G: topics 0, 1, 3, 5, 6
-
-## all_percentile_alt.csv
-The difference from all_percentile is that topic 5 is classified under "E"
+Under E: topics 4, 5, 7, 13
+Under SG: remaining topics
 
 ## asian_banks.csv
 
