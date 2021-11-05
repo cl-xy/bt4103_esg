@@ -101,6 +101,7 @@ card_sentiment_comparison = dbc.Card([
 card_bigram_comparison1 = dbc.Card([
     dbc.CardBody([
         html.H5('Top 10 Occurring Bigrams', className='card-header text-center'),
+        html.Div(id="alert1", children=[]),
         dcc.Graph(id='bigram1', figure={}),
         html.Br(),
         html.P('Values represent the TF-IDF score of a word pair in a document \
@@ -111,12 +112,15 @@ card_bigram_comparison1 = dbc.Card([
 card_bigram_comparison2 = dbc.Card([
     dbc.CardBody([
         html.H5('Top 10 Occurring Bigrams', className='card-header text-center'),
+        html.Div(id="alert2", children=[]),
         dcc.Graph(id='bigram2', figure={}),
         html.Br(),
         html.P('Values represent the TF-IDF score of a word pair in a document \
                 where TF-IDF score = term frequency X inverse document frequency', className='card-footer')
     ])
 ])
+
+alert = dbc.Alert('No decarbonisation related bigrams to display!', color='danger', className='text-center', dismissable=True)
 
 # Tabs ------------------------------------------------------------------------------
 tab1_content = dbc.Card(
@@ -199,8 +203,9 @@ tab2_content = dbc.Card(
         ]),
         html.Br(),
         dbc.Row([
-            dbc.Col([card_bigram_comparison1], width={'size':6, 'offset':0, 'order':1}),
-            dbc.Col([card_bigram_comparison2], width={'size':6, 'offset':0, 'order':2})
+            dbc.CardDeck([card_bigram_comparison1, card_bigram_comparison2])
+            #dbc.Col([card_bigram_comparison1], width={'size':6, 'offset':0, 'order':1}),
+            #dbc.Col([card_bigram_comparison2], width={'size':6, 'offset':0, 'order':2})
         ]),
         html.Br(),
         dbc.Row([
@@ -459,6 +464,7 @@ def update_graph(type_of_fi, company1, company2):
 # To update bigram chart 1
 @app.callback(
     Output(component_id='bigram1', component_property='figure'),
+    Output(component_id='alert1', component_property='children'),
     Input(component_id='company_dropdown_tab2', component_property='value')
 )
 def update_graph(company1):
@@ -467,9 +473,11 @@ def update_graph(company1):
         bigram_dict = ast.literal_eval(bigram_dict)
         words = [w[0] for w in bigram_dict]
         counts = [round(w[1],3) for w in bigram_dict]
+        alert_notification = dash.no_update
     except KeyError:
         words = [0]
         counts = ['No Decarbonization-Related Bigrams Available']
+        alert_notification = alert
 
     fig = go.Figure(go.Bar(
             x=counts,
@@ -480,11 +488,12 @@ def update_graph(company1):
             textposition='inside'))
     fig.update_layout(height = 450 , margin = {'t':60, 'b':0, 'r':10}, yaxis=dict(autorange="reversed"), 
                     title_text=company1, title_font_size=13, title_x=0.5)
-    return fig
+    return fig, alert_notification
 
 # To update bigram chart 2
 @app.callback(
     Output(component_id='bigram2', component_property='figure'),
+    Output(component_id='alert2', component_property='children'),
     Input(component_id='company_dropdown2_tab2', component_property='value')
 )
 def update_graph(company2):
@@ -493,9 +502,11 @@ def update_graph(company2):
         bigram_dict = ast.literal_eval(bigram_dict)
         words = [w[0] for w in bigram_dict]
         counts = [round(w[1],3) for w in bigram_dict]
+        alert_notification = dash.no_update
     except KeyError:
         words = [0]
         counts = ['No Decarbonization-Related Bigrams Available']
+        alert_notification = alert
     
     fig = go.Figure(go.Bar(
             x=counts,
@@ -506,7 +517,7 @@ def update_graph(company2):
             textposition='inside'))
     fig.update_layout(height = 450 , margin = {'t':60, 'b':0, 'r':10}, yaxis=dict(autorange="reversed"), 
                     title_text=company2, title_font_size=13, title_x=0.5)
-    return fig
+    return fig, alert_notification
 
 # -------------------------------------------------------------------------------------
 if __name__ == '__main__':
