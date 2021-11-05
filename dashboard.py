@@ -462,10 +462,14 @@ def update_graph(type_of_fi, company1, company2):
     Input(component_id='company_dropdown_tab2', component_property='value')
 )
 def update_graph(company1):
-    bigram_dict = bigram_file.set_index('name').bigramarray.loc[company1]
-    bigram_dict = ast.literal_eval(bigram_dict)
-    words = [w[0] for w in bigram_dict]
-    counts = [round(w[1],3) for w in bigram_dict]
+    try:
+        bigram_dict = bigram_file.set_index('name').bigramarray.loc[company1]
+        bigram_dict = ast.literal_eval(bigram_dict)
+        words = [w[0] for w in bigram_dict]
+        counts = [round(w[1],3) for w in bigram_dict]
+    except KeyError:
+        words = [0]
+        counts = ['No Decarbonization-Related Bigrams Available']
 
     fig = go.Figure(go.Bar(
             x=counts,
@@ -484,10 +488,14 @@ def update_graph(company1):
     Input(component_id='company_dropdown2_tab2', component_property='value')
 )
 def update_graph(company2):
-    bigram_dict = bigram_file.set_index('name').bigramarray.loc[company2]
-    bigram_dict = ast.literal_eval(bigram_dict)
-    words = [w[0] for w in bigram_dict]
-    counts = [round(w[1],3) for w in bigram_dict]
+    try:
+        bigram_dict = bigram_file.set_index('name').bigramarray.loc[company2]
+        bigram_dict = ast.literal_eval(bigram_dict)
+        words = [w[0] for w in bigram_dict]
+        counts = [round(w[1],3) for w in bigram_dict]
+    except KeyError:
+        words = [0]
+        counts = ['No Decarbonization-Related Bigrams Available']
     
     fig = go.Figure(go.Bar(
             x=counts,
