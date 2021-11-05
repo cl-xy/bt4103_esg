@@ -40,7 +40,7 @@ all_initiative_array = pd.read_csv('results/all_initiatives.csv', usecols=['name
 ratings_file = pd.read_csv('results/all_percentile_t14.csv', usecols=['name', 'percent', 'type'])
 
 # For sentiment 
-sentiment_file = pd.read_csv('results/sentiment_score_latest.csv', usecols=['name', 'sentiment_score', 'type'])
+sentiment_file = pd.read_csv('results/sentiment_score_comparisons.csv', usecols=['name', 'predicted_sentiment_tree', 'type'])
 
 # For bigram
 bigram_file = pd.read_csv('results/bigram_df.csv', usecols=['name', 'bigramarray'])
@@ -256,9 +256,9 @@ def update_dropdown(type_of_fi):
 def update_graph(type_of_fi, company):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = sentiment_file.loc[sentiment_file['type'] == type_of_fi]
-    count_array = sub_df['sentiment_score'].values.tolist()
+    count_array = sub_df['predicted_sentiment_tree'].values.tolist()
 
-    sentiment = round(sentiment_file.set_index('name').sentiment_score.loc[company], 2)
+    sentiment = round(sentiment_file.set_index('name').predicted_sentiment_tree.loc[company], 2)
     average = round(sum(count_array) / len(count_array), 2)
     fig = go.Figure(go.Indicator(
         domain = {'x': [0, 1], 'y': [0, 1]},
@@ -444,11 +444,11 @@ def update_graph(type_of_fi, company1, company2):
 def update_graph(type_of_fi, company1, company2):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = sentiment_file.loc[sentiment_file['type'] == type_of_fi]
-    sentiment_array = sub_df['sentiment_score'].values.tolist()
+    sentiment_array = sub_df['predicted_sentiment_tree'].values.tolist()
     average = round(sum(sentiment_array) / len(sentiment_array), 2)
 
-    sentiment1 = round(sentiment_file.set_index('name').sentiment_score.loc[company1], 2)
-    sentiment2 = round(sentiment_file.set_index('name').sentiment_score.loc[company2], 2)
+    sentiment1 = round(sentiment_file.set_index('name').predicted_sentiment_tree.loc[company1], 2)
+    sentiment2 = round(sentiment_file.set_index('name').predicted_sentiment_tree.loc[company2], 2)
     
     fig = go.Figure(go.Bar(
             x=[average, sentiment2, sentiment1],
