@@ -282,7 +282,7 @@ def update_graph_tab1_sentiment(type_of_fi, company):
     Input(component_id='type_of_fi_dropdown_tab1', component_property='value'),
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
-def update_graph_tab1_percent(type_of_fi, company):
+def update_graph_tab1_percentage(type_of_fi, company):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = ratings_file.loc[ratings_file['type'] == type_of_fi]
     count_array = sub_df['percent'].values.tolist()
@@ -330,8 +330,8 @@ def update_graph_tab1_initiativecount(type_of_fi, company):
     Output(component_id='initiative_table', component_property='figure'),
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
-def update_graph_tab1_initiativetable(option_slctd):
-    company_initiative = all_initiative_array.set_index('name').initiatives.loc[option_slctd]
+def update_graph_tab1_initiativetable(company):
+    company_initiative = all_initiative_array.set_index('name').initiatives.loc[company]
     company_initiative = ast.literal_eval(company_initiative)
     company_initiative = sorted(company_initiative)
     
