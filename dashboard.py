@@ -203,9 +203,8 @@ tab2_content = dbc.Card(
         ]),
         html.Br(),
         dbc.Row([
-            dbc.CardDeck([card_bigram_comparison1, card_bigram_comparison2])
-            #dbc.Col([card_bigram_comparison1], width={'size':6, 'offset':0, 'order':1}),
-            #dbc.Col([card_bigram_comparison2], width={'size':6, 'offset':0, 'order':2})
+            dbc.Col([card_bigram_comparison1], width={'size':6, 'offset':0, 'order':1}),
+            dbc.Col([card_bigram_comparison2], width={'size':6, 'offset':0, 'order':2})
         ]),
         html.Br(),
         dbc.Row([
