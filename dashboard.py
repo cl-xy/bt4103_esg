@@ -242,7 +242,7 @@ app.layout = dbc.Container([
     Output(component_id='company_dropdown_tab1', component_property='options'),
     Input(component_id='type_of_fi_dropdown_tab1', component_property='value')
 )
-def update_dropdown(type_of_fi):
+def update_dropdown_tab1(type_of_fi):
     sub_df = companylabels_file.loc[companylabels_file['type'] == type_of_fi]
     options = [{'label': x[0], 'value': x[1]} for x in sub_df.values.tolist()]
     return options
@@ -253,7 +253,7 @@ def update_dropdown(type_of_fi):
     Input(component_id='type_of_fi_dropdown_tab1', component_property='value'),
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
-def update_graph(type_of_fi, company):
+def update_graph_tab1_sentiment(type_of_fi, company):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = sentiment_file.loc[sentiment_file['type'] == type_of_fi]
     count_array = sub_df['predicted_sentiment_tree'].values.tolist()
@@ -276,13 +276,13 @@ def update_graph(type_of_fi, company):
     fig.update_layout(height = 200, margin = {'t':10, 'b':0})
     return fig
 
-# To update barplot for percentile rank
+# To update barplot for percentage disclosure
 @app.callback(
     Output(component_id='percentage_barplot', component_property='figure'),
     Input(component_id='type_of_fi_dropdown_tab1', component_property='value'),
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
-def update_graph(type_of_fi, company):
+def update_graph_tab1_percent(type_of_fi, company):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = ratings_file.loc[ratings_file['type'] == type_of_fi]
     count_array = sub_df['percent'].values.tolist()
@@ -306,7 +306,7 @@ def update_graph(type_of_fi, company):
     Input(component_id='type_of_fi_dropdown_tab1', component_property='value'),
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
-def update_graph(type_of_fi, company):
+def update_graph_tab1_initiativecount(type_of_fi, company):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = all_initiative_array.loc[all_initiative_array['type'] == type_of_fi]
     count_array = sub_df['count'].values.tolist()
@@ -330,7 +330,7 @@ def update_graph(type_of_fi, company):
     Output(component_id='initiative_table', component_property='figure'),
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
-def update_graph(option_slctd):
+def update_graph_tab1_initiativetable(option_slctd):
     company_initiative = all_initiative_array.set_index('name').initiatives.loc[option_slctd]
     company_initiative = ast.literal_eval(company_initiative)
     company_initiative = sorted(company_initiative)
@@ -365,7 +365,7 @@ def update_graph(option_slctd):
     Output(component_id='word_count', component_property='figure'),
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
-def update_graph(company):
+def update_graph_tab1_wordcount(company):
     sub_df = word_count_file.loc[word_count_file['name'] == company]
     sorted_df = sub_df.sort_values(by=['count'], ascending=False)
     words = sorted_df['bigram'].tolist()
@@ -388,7 +388,7 @@ def update_graph(company):
     Output(component_id='company_dropdown_tab2', component_property='options'),
     Input(component_id='type_of_fi_dropdown_tab2', component_property='value')
 )
-def update_dropdown(type_of_fi):
+def update_dropdown_tab2_fi(type_of_fi):
     sub_df = companylabels_file.loc[companylabels_file['type'] == type_of_fi]
     options = [{'label': x[0], 'value': x[1]} for x in sub_df.values.tolist()]
     return options
@@ -399,7 +399,7 @@ def update_dropdown(type_of_fi):
     Input(component_id='company_dropdown_tab2', component_property='value'),
     Input(component_id='type_of_fi_dropdown_tab2', component_property='value')
 )
-def update_dropdown(company1, type_of_fi):
+def update_dropdown_tab2_company(company1, type_of_fi):
     sub_df = companylabels_file.loc[companylabels_file['type'] == type_of_fi]
     options = [{'label': x[0], 'value': x[1]} for x in sub_df.values.tolist() if x[1] != company1]
     return options
@@ -411,7 +411,7 @@ def update_dropdown(company1, type_of_fi):
     Input(component_id='company_dropdown_tab2', component_property='value'),
     Input(component_id='company_dropdown2_tab2', component_property='value')
 )
-def update_graph(type_of_fi, company1, company2):
+def update_graph_tab2_percentage(type_of_fi, company1, company2):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = ratings_file.loc[ratings_file['type'] == type_of_fi]
     percent_array = sub_df['percent'].values.tolist()
@@ -441,7 +441,7 @@ def update_graph(type_of_fi, company1, company2):
     Input(component_id='company_dropdown_tab2', component_property='value'),
     Input(component_id='company_dropdown2_tab2', component_property='value')
 )
-def update_graph(type_of_fi, company1, company2):
+def update_graph_tab2_sentiment(type_of_fi, company1, company2):
     # Extract out dataframe for relevant FI, used for aggregation
     sub_df = sentiment_file.loc[sentiment_file['type'] == type_of_fi]
     sentiment_array = sub_df['predicted_sentiment_tree'].values.tolist()
@@ -467,7 +467,7 @@ def update_graph(type_of_fi, company1, company2):
     Output(component_id='alert1', component_property='children'),
     Input(component_id='company_dropdown_tab2', component_property='value')
 )
-def update_graph(company1):
+def update_graph_tab2_bigram1(company1):
     try:
         bigram_dict = bigram_file.set_index('name').bigramarray.loc[company1]
         bigram_dict = ast.literal_eval(bigram_dict)
@@ -496,7 +496,7 @@ def update_graph(company1):
     Output(component_id='alert2', component_property='children'),
     Input(component_id='company_dropdown2_tab2', component_property='value')
 )
-def update_graph(company2):
+def update_graph_tab2_bigram2(company2):
     try:
         bigram_dict = bigram_file.set_index('name').bigramarray.loc[company2]
         bigram_dict = ast.literal_eval(bigram_dict)
