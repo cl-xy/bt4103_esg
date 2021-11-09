@@ -20,6 +20,8 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MATERIA],
                             'content': 'width=device-width, initial-scale=1.0'}]
                 )
 
+server = app.server
+
 # Load Data --------------------------------------------------------------------------
 # Load company names to display in dropdown menu
 companylabels_file = pd.read_csv('data/companylabels.csv', usecols=['fullname', 'shortform', 'type'])
