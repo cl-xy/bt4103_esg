@@ -79,12 +79,20 @@ card_initiative_table = dbc.Card([
     ])
 ])
 
-card_word_count = dbc.Card([
+card_bigram = dbc.Card([
     dbc.CardBody([
-        html.H5('Top 10 Word Count', className='card-header text-center'),
-        dcc.Graph(id='word_count', figure={})
+        html.H5('Top 10 Occurring Bigrams', className='card-header text-center'),
+        html.Div(id="alert", children=[]),
+        dcc.Graph(id='bigram', figure={})
     ])
 ])
+
+# card_word_count = dbc.Card([
+#     dbc.CardBody([
+#         html.H5('Top 10 Word Count', className='card-header text-center'),
+#         dcc.Graph(id='word_count', figure={})
+#     ])
+# ])
 
 card_percentage_comparison = dbc.Card([
     dbc.CardBody([
@@ -157,7 +165,7 @@ tab1_content = dbc.Card(
         html.Br(),
         dbc.Row([ 
             dbc.Col([card_initiative_table], width={'size':7, 'offset':0, 'order':1}),
-            dbc.Col([card_word_count], width={'size':5, 'offset':0, 'order':2})
+            dbc.Col([card_bigram], width={'size':5, 'offset':0, 'order':2})
         ]),
         html.Br(),
         dbc.Row([
@@ -361,17 +369,23 @@ def update_graph_tab1_initiativetable(company):
     ], layout=go.Layout(margin={'l':0, 'r':0, 't':10, 'b':10}))
     return fig
 
-# To update word count bar plot
+# To update bigram chart 
 @app.callback(
-    Output(component_id='word_count', component_property='figure'),
+    Output(component_id='bigram', component_property='figure'),
+    Output(component_id='alert', component_property='children'),
     Input(component_id='company_dropdown_tab1', component_property='value')
 )
-def update_graph_tab1_wordcount(company):
-    sub_df = word_count_file.loc[word_count_file['name'] == company]
-    sorted_df = sub_df.sort_values(by=['count'], ascending=False)
-    words = sorted_df['bigram'].tolist()
-    counts = sorted_df['count'].tolist()
-    counts = [int(x) for x in counts]
+def update_graph_tab1_bigram(company):
+    try:
+        bigram_dict = bigram_file.set_index('name').bigramarray.loc[company]
+        bigram_dict = ast.literal_eval(bigram_dict)
+        words = [w[0] for w in bigram_dict]
+        counts = [round(w[1],3) for w in bigram_dict]
+        alert_notification = dash.no_update
+    except KeyError:
+        words = [0]
+        counts = ['No Decarbonization-Related Bigrams Available']
+        alert_notification = alert
 
     fig = go.Figure(go.Bar(
             x=counts,
@@ -381,7 +395,29 @@ def update_graph_tab1_wordcount(company):
             text=counts,
             textposition='inside'))
     fig.update_layout(height = 450 , margin = {'t':10, 'b':0, 'r':10, 'l':10}, yaxis=dict(autorange="reversed"))
-    return fig 
+    return fig, alert_notification
+
+# # To update word count bar plot
+# @app.callback(
+#     Output(component_id='word_count', component_property='figure'),
+#     Input(component_id='company_dropdown_tab1', component_property='value')
+# )
+# def update_graph_tab1_wordcount(company):
+#     sub_df = word_count_file.loc[word_count_file['name'] == company]
+#     sorted_df = sub_df.sort_values(by=['count'], ascending=False)
+#     words = sorted_df['bigram'].tolist()
+#     counts = sorted_df['count'].tolist()
+#     counts = [int(x) for x in counts]
+
+#     fig = go.Figure(go.Bar(
+#             x=counts,
+#             y=words,
+#             orientation='h',
+#             marker_color=px.colors.sequential.Tealgrn,
+#             text=counts,
+#             textposition='inside'))
+#     fig.update_layout(height = 450 , margin = {'t':10, 'b':0, 'r':10, 'l':10}, yaxis=dict(autorange="reversed"))
+#     return fig 
 
 # ---------- For Tab 2 ----------
 # To filter for comapanies according to FI chosen in dropdown 1 [Company 1]
