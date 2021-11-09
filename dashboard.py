@@ -427,7 +427,7 @@ def update_graph_tab2_percentage(type_of_fi, company1, company2):
     fig.add_trace(go.Pie(labels=labels, values=[percent1, 100-percent1], name=company1, pull=[0.2, 0]), 1, 2)
     fig.add_trace(go.Pie(labels=labels, values=[percent2, 100-percent2], name=company2, pull=[0.2, 0]), 1, 3)
 
-    fig.update_traces(hoverinfo="label+percent+name", marker_colors=['rgb(176, 242, 188)', 'rgb(56, 178, 163)'])
+    fig.update_traces(hoverinfo="label+percent+name", marker_colors=['rgb(56, 178, 163)', 'rgb(176, 242, 188)'])
     fig.update_layout(legend=dict(orientation="h", yanchor="bottom", xanchor="auto"), 
         height = 350, margin = {'t':60, 'b':0, 'r':50, 'l':50})
     fig.update_annotations(font_size=13, font_color='black')
