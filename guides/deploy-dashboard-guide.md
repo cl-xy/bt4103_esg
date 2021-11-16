@@ -61,9 +61,39 @@ pip freeze > requirements.txt
 
 <br>
 
+# Step 4: Copy data files into this repository
+Files read as input for the dashboard
+
+## Step 4.1. Create sub-folders
+mkdir data
+mkdir results
+
+<br>
+Check that sub-folders are created successfully:
+
+1. Go to the data directory: <i>cd data</i>
+2. Go to the results directory: <i>cd ../results </i>
+3. Go back to the root directory: <i>cd ..</i>
+
+## Step 4.2. Copy .csv files into the sub-folders
+
+'data' folder should contain:
+
+1. companylabels.csv
+2. esg_initiatives.csv
+
+'results' folder should contain:
+
+1. all_initiatives.csv
+2. all_percent.csv
+3. sentiment_score_comparisons.csv
+4. bigram_df.csv
+
 # **Step 4: Initialize Heroku, add files to Git, and deploy**
 
-heroku create bt4103-esg-dashboard
+heroku create <your_webapp_name>
+<br>
+(eg.heroku create bt4103-esg-dashboard)
 <br>
 git add . # add all files to git
 <br>
