@@ -47,9 +47,6 @@ sentiment_file = pd.read_csv('results/sentiment_score_comparisons.csv', usecols=
 # For bigram
 bigram_file = pd.read_csv('results/bigram_df.csv', usecols=['name', 'bigramarray'])
 
-# For wordcount
-word_count_file = pd.read_csv('results/all_word_count_top10.csv', usecols=['name', 'bigram', 'count'])
-
 # Cards --------------------------------------------------------------------------------
 card_sentiment = dbc.Card([
     dbc.CardBody([
@@ -86,13 +83,6 @@ card_bigram = dbc.Card([
         dcc.Graph(id='bigram', figure={})
     ])
 ])
-
-# card_word_count = dbc.Card([
-#     dbc.CardBody([
-#         html.H5('Top 10 Word Count', className='card-header text-center'),
-#         dcc.Graph(id='word_count', figure={})
-#     ])
-# ])
 
 card_percentage_comparison = dbc.Card([
     dbc.CardBody([
@@ -207,7 +197,7 @@ tab2_content = dbc.Card(
             ], width={'size':4, 'offset':0, 'order':3})
         ]),
         html.Br(),
-        dbc.Row([ # Third Row
+        dbc.Row([
             dbc.Col([card_sentiment_comparison], width={'size':6, 'offset':0, 'order':1}),
             dbc.Col([card_percentage_comparison], width={'size':6, 'offset':0, 'order':2})
         ]),
@@ -233,7 +223,6 @@ tabs = dbc.Tabs([
 ])
 
 # Layout -----------------------------------------------------------------------------
-# ---------- For Tab 1 ----------
 app.layout = dbc.Container([
     html.Br(),
     dbc.Row([ # First Row: Dashboard Header
@@ -396,28 +385,6 @@ def update_graph_tab1_bigram(company):
             textposition='inside'))
     fig.update_layout(height = 450 , margin = {'t':10, 'b':0, 'r':10, 'l':10}, yaxis=dict(autorange="reversed"))
     return fig, alert_notification
-
-# # To update word count bar plot
-# @app.callback(
-#     Output(component_id='word_count', component_property='figure'),
-#     Input(component_id='company_dropdown_tab1', component_property='value')
-# )
-# def update_graph_tab1_wordcount(company):
-#     sub_df = word_count_file.loc[word_count_file['name'] == company]
-#     sorted_df = sub_df.sort_values(by=['count'], ascending=False)
-#     words = sorted_df['bigram'].tolist()
-#     counts = sorted_df['count'].tolist()
-#     counts = [int(x) for x in counts]
-
-#     fig = go.Figure(go.Bar(
-#             x=counts,
-#             y=words,
-#             orientation='h',
-#             marker_color=px.colors.sequential.Tealgrn,
-#             text=counts,
-#             textposition='inside'))
-#     fig.update_layout(height = 450 , margin = {'t':10, 'b':0, 'r':10, 'l':10}, yaxis=dict(autorange="reversed"))
-#     return fig 
 
 # ---------- For Tab 2 ----------
 # To filter for comapanies according to FI chosen in dropdown 1 [Company 1]
