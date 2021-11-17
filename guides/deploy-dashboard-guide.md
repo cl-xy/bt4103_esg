@@ -66,6 +66,7 @@ Files read as input for the dashboard
 
 ## Step 4.1. Create sub-folders
 mkdir data
+
 mkdir results
 
 <br>
@@ -86,10 +87,10 @@ Check that sub-folders are created successfully:
 
 1. all_initiatives.csv
 2. all_percent.csv
-3. sentiment_score_comparisons.csv
+3. sentiment_score.csv
 4. bigram_df.csv
 
-# **Step 4: Initialize Heroku, add files to Git, and deploy**
+# **Step 5: Initialize Heroku, add files to Git, and deploy**
 
 heroku create <your_webapp_name>
 <br>
@@ -107,7 +108,7 @@ You should be able to view your app at https://bt4103-esg-dashboard.herokuapp.co
 
 <br>
 
-# **Step 5: Update the code and redeploy**
+# **Step 6: Update the code and redeploy**
 
 When you modify dashboard.py with your own code, you will need to add the changes to git and push those changes to heroku.
 
