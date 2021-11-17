@@ -42,7 +42,7 @@ all_initiative_array = pd.read_csv('results/all_initiatives.csv', usecols=['name
 ratings_file = pd.read_csv('results/all_percent.csv', usecols=['name', 'percent', 'type'])
 
 # For sentiment 
-sentiment_file = pd.read_csv('results/sentiment_score_comparisons.csv', usecols=['name', 'predicted_sentiment_tree', 'type'])
+sentiment_file = pd.read_csv('results/sentiment_score.csv', usecols=['name', 'predicted_sentiment_tree', 'type'])
 
 # For bigram
 bigram_file = pd.read_csv('results/bigram_df.csv', usecols=['name', 'bigramarray'])
