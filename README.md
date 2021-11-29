@@ -50,11 +50,11 @@ There are 2 main tabs:
 
 In the **Individual Company** tab, users can view metrics related to each company's decarbonization efforts. 
 
-![alt text](https://github.com/cl-xy/bt4103_esg/tree/main/documentations/dashboard_1.png?raw=true)
+![alt text](https://github.com/cl-xy/bt4103_esg/blob/main/documentations/dashboard_1.png?raw=true)
 
 In the **Company Comparison** tab, users can compare metrics between 2 companies and determine which company performs better. 
 
-![alt text](https://github.com/cl-xy/bt4103_esg/tree/main/documentations/dashboard_2.png?raw=true)
+![alt text](https://github.com/cl-xy/bt4103_esg/blob/main/documentations/dashboard_2.png?raw=true)
 
 
 ## Files
